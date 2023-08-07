@@ -8,6 +8,7 @@
 
 import Foundation
 import Segment
+import UserNotifications
 
 public class TwilioEngage: EventPlugin {
     public var type = PluginType.enrichment
@@ -23,16 +24,15 @@ public class TwilioEngage: EventPlugin {
         case subscribed = "SUBSCRIBED"
         case unsubscribed = "UNSUBSCRIBED"
         case didNotSubscribe = "DID_NOT_SUBSCRIBE"
-        case disabled = "DISABLED"
     }
     
     internal enum Events: String, CaseIterable {
-        case tapped = "Push Notification Tapped"
-        case received = "Push Notification Received"
-        case registered = "Registered for Push Notifications"
-        case unregistered = "Unregistered for Push Notifications"
-        case changed = "Push Notifications Subscription Change"
-        case declined = "Push Notifications Subscription Declined"
+        case tapped = "Notification Opened" // App was not running
+        case received = "Notification Delivered" // App was running
+        case registered = "Registered for Notifications"
+        case unregistered = "Unable to Register for Notifications"
+        case changed = "Notifications Subscription Change"
+        case declined = "Notifications Subscription Declined"
     }
     
     internal let userDefaults = UserDefaults(suiteName: "com.twilio.engage")
@@ -40,18 +40,12 @@ public class TwilioEngage: EventPlugin {
     public var status: Status {
         get {
             guard let value = userDefaults?.string(forKey: "Status") else { return .didNotSubscribe }
-            guard let status = Status(rawValue: value) else { return .disabled }
+            guard let status = Status(rawValue: value) else { return .didNotSubscribe }
             return status
         }
         set(value) {
             if self.status != value, let callback = statusCallback {
                 callback(self.status, value)
-            }
-            
-            userDefaults?.set(value.rawValue, forKey: "Status")
-            if value != .subscribed {
-                // if they're not subscribed, clear the device token we have.
-                deviceToken = nil
             }
         }
     }
@@ -84,7 +78,7 @@ public class TwilioEngage: EventPlugin {
             case .notDetermined:
                 newStatus = .didNotSubscribe
             case .denied:
-                newStatus = .disabled
+                newStatus = .didNotSubscribe
             default:
                 // These cases are all some version of subscribed.
                 //case .authorized:
@@ -102,7 +96,6 @@ public class TwilioEngage: EventPlugin {
                         UIApplication.shared.registerForRemoteNotifications()
                     }
                 }
-                
                 print("Push Status Changed, old=\(currentStatus), new=\(newStatus)")
                 self.analytics?.track(name: Events.changed.rawValue)
             }
@@ -147,7 +140,7 @@ extension TwilioEngage: RemoteNotifications {
     
     public func declinedRemoteNotifications() {
         self.deviceToken = nil
-        self.status = .disabled
+        self.status = .didNotSubscribe
         analytics?.track(name: Events.declined.rawValue)
         print("Push Notifications were declined.")
     }
@@ -163,7 +156,7 @@ extension TwilioEngage: RemoteNotifications {
     
     public func failedToRegisterForRemoteNotification(error: Error?) {
         self.deviceToken = nil
-        self.status = .disabled
+        self.status = .didNotSubscribe
         analytics?.track(name: Events.unregistered.rawValue, properties: ["error": error?.localizedDescription ?? NSNull() ])
         print("Unable to register for Push Notifications (error=\(error?.localizedDescription ?? "unknown")")
     }
