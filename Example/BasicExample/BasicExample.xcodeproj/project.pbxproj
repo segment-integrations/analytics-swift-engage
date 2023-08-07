@@ -13,6 +13,7 @@
 		829B792F2A7D973200841B7D /* TwilioEngage in Frameworks */ = {isa = PBXBuildFile; productRef = 829B792E2A7D973200841B7D /* TwilioEngage */; };
 		82D179FB2A8166A700318017 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D179FA2A8166A700318017 /* NotificationService.swift */; };
 		82D179FF2A8166A700318017 /* TwiliEngageExampleNotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 82D179F82A8166A700318017 /* TwiliEngageExampleNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		82F9C4732A8177A200E580E3 /* DeepLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9C4722A8177A200E580E3 /* DeepLinkViewController.swift */; };
 		9BC924392A5C9C840003637C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC924382A5C9C840003637C /* AppDelegate.swift */; };
 		9BC9243B2A5C9D130003637C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9243A2A5C9D130003637C /* SceneDelegate.swift */; };
 		9BC9243D2A5C9D3E0003637C /* Tab1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9243C2A5C9D3E0003637C /* Tab1ViewController.swift */; };
@@ -56,6 +57,7 @@
 		82D179F82A8166A700318017 /* TwiliEngageExampleNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TwiliEngageExampleNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D179FA2A8166A700318017 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		82D179FC2A8166A700318017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82F9C4722A8177A200E580E3 /* DeepLinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkViewController.swift; sourceTree = "<group>"; };
 		9BC924352A5C9AE20003637C /* BasicExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BasicExample.entitlements; sourceTree = "<group>"; };
 		9BC924362A5C9B4E0003637C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9BC924372A5C9C840003637C /* BasicExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BasicExample-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				46EDC6F927C6B8D200B870D7 /* Assets.xcassets */,
 				46EDC6FB27C6B8D200B870D7 /* Preview Content */,
 				9BC924382A5C9C840003637C /* AppDelegate.swift */,
+				82F9C4722A8177A200E580E3 /* DeepLinkViewController.swift */,
 				9BC924732A5CBF8E0003637C /* UIKitScreenTracking.swift */,
 				9BC924372A5C9C840003637C /* BasicExample-Bridging-Header.h */,
 				9BC9243A2A5C9D130003637C /* SceneDelegate.swift */,
@@ -292,6 +295,7 @@
 				9BC924742A5CBF8E0003637C /* UIKitScreenTracking.swift in Sources */,
 				9BC924392A5C9C840003637C /* AppDelegate.swift in Sources */,
 				9BC9243B2A5C9D130003637C /* SceneDelegate.swift in Sources */,
+				82F9C4732A8177A200E580E3 /* DeepLinkViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
