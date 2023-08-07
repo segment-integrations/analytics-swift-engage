@@ -176,7 +176,8 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive respo
     handleNotificiation(notification: userInfo, shouldAsk: false)
 }
 
- //...
+ ...
+
 //an extension for logic for displaying different notification types: 
 extension AppDelegate {
 
@@ -186,95 +187,18 @@ extension AppDelegate {
       if let tapAction = aps["category"] as? String {
         switch tapAction {
           case "open_url":
-            openWebview(notification: notification, shouldAsk: shouldAsk)
+            //add functionality for displaying a webview or opening a default browser 
           case "deep_link":
-            openDeepLinkViewController(notification: notification, shouldAsk: shouldAsk)
+            //add functionality for navigating to a specific screen in the app 
           case "<custom_action>":
-            // handle a custom action like accept/decline or confirm/cancel  
+            //handle a custom action like accept/decline or confirm/cancel  
           default:
-            // this will catch `open_app` to open home screen
+            //this will catch `open_app` to open home screen
             return
         }
       }
     }
   }
-
-//if the notification contains a url and the `tapAction` of `open_url`
-//open a webview to display the url in a browser 
-func openWebview(notification: [AnyHashable : Any], shouldAsk: Bool) {
-    let webViewController = ProgressWebViewController(nibName: "Main", bundle: Bundle.main)
-        
-    guard var urlString = notification["link"] as? String else { return }
-    urlString = urlString.replacingOccurrences(of: "engage://", with: "https://")
-    guard let url = URL(string: urlString) else { return }
-        
-    let aps = notification["aps"] as? [AnyHashable: Any]
-    let alert = aps?["alert"] as? [AnyHashable: Any]
-    let title = alert?["title"] as? String
-
-    //a boolean used to determine if notification was received in foreground
-    //if so, add an alert to display the notification in the app (rather than lock screen or banner) 
-    if shouldAsk == true, let title = title {
-      let alert = UIAlertController(
-        title: "New Product Alert!",
-        message: title,
-        preferredStyle: UIAlertController.Style.alert
-      )
-            
-        alert.addAction(UIAlertAction(title: "Maybe Later", style: UIAlertAction.Style.default, handler: { _ in
-          //Cancel Action
-        }))
-        alert.addAction(UIAlertAction(title: "Sure!",
-          style: UIAlertAction.Style.default,
-          handler: {(_: UIAlertAction!) in
-            webViewController.websiteTitleInNavigationBar = true
-            webViewController.load(url)
-            webViewController.navigationWay = .push
-            webViewController.pullToRefresh = true
-            mainView?.navigationController?.pushViewController(webViewController, animated: true)
-          }))
-            mainView?.present(alert, animated: true, completion: nil)
-        } else {
-            webViewController.websiteTitleInNavigationBar = true
-            webViewController.load(url)
-            webViewController.navigationWay = .push
-            webViewController.pullToRefresh = true
-            
-            mainView?.navigationController?.pushViewController(webViewController, animated: true)
-        }
-    } 
-
-//if the `tapAction` is `deep_link`, parse the `link` for the path you want to display: 
-private func openDeepLinkViewController(notification: [AnyHashable: Any], shouldAsk: Bool)
-  {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    guard let deepLinkString = notification["link"] as? String else { return }
-    let deepLinkScreen = deepLinkString.replacingOccurrences(of: "engage://", with: "")
-    let deepLinkVC = storyboard.instantiateViewController(identifier: deepLinkScreen)
-        
-    let aps = notification["aps"] as? [AnyHashable: Any]
-    let alert = aps?["alert"] as? [AnyHashable: Any]
-    let title = alert?["title"] as? String
-    if shouldAsk == true, let title = title {
-        let alert = UIAlertController(
-          title: "New Product Alert!",
-          message: title,
-          preferredStyle: UIAlertController.Style.alert
-        )
-            
-        alert.addAction(UIAlertAction(title: "Maybe Later", style: UIAlertAction.Style.default, handler: { _ in
-          //Cancel Action
-        }))
-        alert.addAction(UIAlertAction(title: "Sure!",
-          style: UIAlertAction.Style.default,
-          handler: {(_: UIAlertAction!) in
-            mainView?.navigationController?.pushViewController(deepLinkVC, animated: true)
-          }))
-            mainView?.present(alert, animated: true, completion: nil)
-        } else {
-            mainView?.navigationController?.pushViewController(deepLinkVC, animated: true)
-        }
-    }
 }
 ```
 
