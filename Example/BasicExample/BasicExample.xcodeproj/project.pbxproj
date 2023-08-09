@@ -57,6 +57,7 @@
 		82D179F82A8166A700318017 /* TwiliEngageExampleNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TwiliEngageExampleNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D179FA2A8166A700318017 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		82D179FC2A8166A700318017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82D209802A840559005118D1 /* TwiliEngageExampleNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TwiliEngageExampleNotificationService.entitlements; sourceTree = "<group>"; };
 		82F9C4722A8177A200E580E3 /* DeepLinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkViewController.swift; sourceTree = "<group>"; };
 		9BC924352A5C9AE20003637C /* BasicExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BasicExample.entitlements; sourceTree = "<group>"; };
 		9BC924362A5C9B4E0003637C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -159,6 +160,7 @@
 		82D179F92A8166A700318017 /* TwiliEngageExampleNotificationService */ = {
 			isa = PBXGroup;
 			children = (
+				82D209802A840559005118D1 /* TwiliEngageExampleNotificationService.entitlements */,
 				82D179FA2A8166A700318017 /* NotificationService.swift */,
 				82D179FC2A8166A700318017 /* Info.plist */,
 			);
@@ -511,6 +513,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = TwiliEngageExampleNotificationService/TwiliEngageExampleNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = V8R4668S2H;
@@ -538,6 +541,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = TwiliEngageExampleNotificationService/TwiliEngageExampleNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = V8R4668S2H;
