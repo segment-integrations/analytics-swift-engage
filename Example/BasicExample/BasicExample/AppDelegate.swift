@@ -86,7 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
       
         UserDefaults(suiteName: "group.com.segment.twiliopush")?.set(1, forKey: "count");  UIApplication.shared.applicationIconBadgeNumber = 0
-      
     }
     
     // MARK: UISceneSession Lifecycle
