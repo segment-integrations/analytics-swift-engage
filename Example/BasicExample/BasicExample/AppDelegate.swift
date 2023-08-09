@@ -83,6 +83,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         handleNotificiation(notification: userInfo, shouldAsk: false)
     }
     
+    func applicationWillEnterForeground(_ application: UIApplication) {
+      
+        UserDefaults(suiteName: "group.com.segment.twiliopush")?.set(1, forKey: "count");  UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+    
     // MARK: UISceneSession Lifecycle
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -176,7 +181,13 @@ extension AppDelegate {
             if let tapAction = aps["category"] as? String {
                 switch tapAction {
                 case "open_url":
-                    openWebview(notification: notification, shouldAsk: shouldAsk)
+                    // open link in default browser
+                    if let urlString = notification["link"] as? String {
+                        guard let url = URL(string: urlString) else {return}
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    }
+                    // alternatively, open a webview inside of your app
+                    // openWebview(notification: notification, shouldAsk: shouldAsk)
                 case "deep_link":
                     openDeepLinkViewController(notification: notification, shouldAsk: shouldAsk)
                 default:
@@ -184,7 +195,6 @@ extension AppDelegate {
                 }
             }
         }
-        
     }
 }
 

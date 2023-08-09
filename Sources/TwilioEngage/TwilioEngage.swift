@@ -27,12 +27,12 @@ public class TwilioEngage: EventPlugin {
     }
     
     internal enum Events: String, CaseIterable {
-        case tapped = "Push Opened" // App was not running
-        case received = "Push Delivered" // App was running
-        case registered = "Registered for Push"
-        case unregistered = "Unable to Register for Push"
-        case changed = "Push Subscription Change"
-        case declined = "Push Subscription Declined"
+        case tapped = "Notification Opened" // App was not running
+        case received = "Notification Delivered" // App was running
+        case registered = "Registered for Notifications"
+        case unregistered = "Unable to Register for Notifications"
+        case changed = "Notifications Subscription Change"
+        case declined = "Notifications Subscription Declined"
     }
     
     internal let userDefaults = UserDefaults(suiteName: "com.twilio.engage")

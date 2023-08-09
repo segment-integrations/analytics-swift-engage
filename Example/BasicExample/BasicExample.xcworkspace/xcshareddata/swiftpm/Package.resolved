@@ -1,32 +1,34 @@
 {
-  "pins" : [
-    {
-      "identity" : "analytics-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/segmentio/analytics-swift",
-      "state" : {
-        "branch" : "main",
-        "revision" : "c8fd5fdf59299f00b3e4303a1b12a6d88893bf56"
+  "object": {
+    "pins": [
+      {
+        "package": "Segment",
+        "repositoryURL": "https://github.com/segmentio/analytics-swift",
+        "state": {
+          "branch": "main",
+          "revision": "b8fe168e2210779c70732f6505913644f6883d48",
+          "version": null
+        }
+      },
+      {
+        "package": "ProgressWebViewController",
+        "repositoryURL": "https://github.com/kf99916/ProgressWebViewController.git",
+        "state": {
+          "branch": null,
+          "revision": "5b0999f1bca15b2192413e244610d3b5e63192ff",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "Sovran",
+        "repositoryURL": "https://github.com/segmentio/Sovran-Swift.git",
+        "state": {
+          "branch": null,
+          "revision": "64f3b5150c282a34af4578188dce2fd597e600e3",
+          "version": "1.1.0"
+        }
       }
-    },
-    {
-      "identity" : "progresswebviewcontroller",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/kf99916/ProgressWebViewController.git",
-      "state" : {
-        "revision" : "5b0999f1bca15b2192413e244610d3b5e63192ff",
-        "version" : "3.0.0"
-      }
-    },
-    {
-      "identity" : "sovran-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/segmentio/Sovran-Swift.git",
-      "state" : {
-        "revision" : "64f3b5150c282a34af4578188dce2fd597e600e3",
-        "version" : "1.1.0"
-      }
-    }
-  ],
-  "version" : 2
+    ]
+  },
+  "version": 1
 }
