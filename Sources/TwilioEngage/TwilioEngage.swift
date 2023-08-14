@@ -44,6 +44,7 @@ public class TwilioEngage: EventPlugin {
             return status
         }
         set(value) {
+            userDefaults?.set(value.rawValue, forKey: "Status")
             if self.status != value, let callback = statusCallback {
                 callback(self.status, value)
             }
