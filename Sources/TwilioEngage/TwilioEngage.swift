@@ -111,11 +111,19 @@ public class TwilioEngage: EventPlugin {
         // this will succeed if the event name can be used to generate a push event case.
         guard Events(rawValue: event.event) != nil else { return event as? T }
         
-        context[keyPath: KeyPath(Self.contextKey)] = [
+        // we don't need the device token for status changed events
+        if Events(rawValue: event.event) == Events.changed {
+            deviceToken = nil
+        }
+        
+        // `messaging_subscription` data type is an array of objects
+        context[keyPath: KeyPath(Self.contextKey)] = [[
             "key": deviceToken,
             "type": Self.subscriptionType,
             "status": status.rawValue
-        ]
+        ]]
+        
+      
         event.context = context
         return event as? T
     }
