@@ -117,7 +117,6 @@ public class TwilioEngage: EventPlugin {
         
         // this will succeed if the event name can be used to generate a push event case.
         guard Events(rawValue: event.event) != nil else { return event as? T }
-        
        
         // we only need to add a deDup_id to `push recieved` and `push opened` events
         if event.event == Events.tapped.rawValue || event.event == Events.received.rawValue {
@@ -129,7 +128,7 @@ public class TwilioEngage: EventPlugin {
                 event.properties = try? JSON(properties)
             }
         }
-        
+
         // `messaging_subscription` data type is an array of objects
         context[keyPath: KeyPath(Self.contextKey)] = [[
             "key": deviceToken,
