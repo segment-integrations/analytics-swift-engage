@@ -113,10 +113,23 @@ public class TwilioEngage: EventPlugin {
         // we only wanna look at track events
         guard var event = event as? TrackEvent else { return event }
         guard var context = event.context else { return event as? T }
+//        guard var properties = event.properties else {return event }
         
         // this will succeed if the event name can be used to generate a push event case.
         guard Events(rawValue: event.event) != nil else { return event as? T }
-        
+       
+        // we only need to add a deDup_id to `push recieved` and `push opened` events
+        if event.event == Events.tapped.rawValue || event.event == Events.received.rawValue {
+            if var properties = event.properties?.dictionaryValue {
+                let formattedEventName = event.event.lowercased().replacingOccurrences(of: " ", with: "_")
+                let messageId = properties["message_id"] ?? UUID().toString()
+                let deDup_id = "\(formattedEventName)\(messageId)"
+                properties[keyPath: "dedup_id"] = deDup_id
+                
+                event.properties = try? JSON(properties)
+            }
+        }
+
         // `messaging_subscription` data type is an array of objects
         context[keyPath: KeyPath(Self.contextKey)] = [[
             "key": deviceToken,
@@ -142,7 +155,6 @@ public class TwilioEngage: EventPlugin {
 
 extension TwilioEngage: RemoteNotifications {
     public func receivedRemoteNotification(userInfo: [AnyHashable: Any]) {
-        // notification was received while the app was open.
         if let notification = userInfo as? [String: Any] {
             trackNotification(notification, fromLaunch: false)
         }
