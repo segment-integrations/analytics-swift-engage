@@ -122,7 +122,9 @@ public class TwilioEngage: EventPlugin {
         if event.event == Events.tapped.rawValue || event.event == Events.received.rawValue {
             if var properties = event.properties?.dictionaryValue {
                 let formattedEventName = event.event.lowercased().replacingOccurrences(of: " ", with: "_")
-                let deDup_id = "\(formattedEventName)\(event.messageId!)"
+//                if properties.con
+                let messageId = properties["message_id"] ?? UUID().toString()
+                let deDup_id = "\(formattedEventName)\(messageId)"
                 properties[keyPath: "dedup_id"] = deDup_id
                 
                 event.properties = try? JSON(properties)
