@@ -9,7 +9,7 @@ import UserNotifications
 import Segment
 
 extension Analytics {
-    static var main = Analytics(configuration: Configuration(writeKey: "7O86AjgXwDLHxwXapRDkSFvqRzLA5n1V")
+    static var main = Analytics(configuration: Configuration(writeKey: "<WRITE_KEY>")
         .flushAt(1)
         .trackApplicationLifecycleEvents(true))
 }
