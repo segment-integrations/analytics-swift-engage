@@ -6,6 +6,13 @@
 //
 
 import UserNotifications
+import Segment
+
+extension Analytics {
+    static var main = Analytics(configuration: Configuration(writeKey: "<WRITE_KEY>")
+        .flushAt(1)
+        .trackApplicationLifecycleEvents(true))
+}
 
 class NotificationService: UNNotificationServiceExtension {
     
@@ -15,7 +22,7 @@ class NotificationService: UNNotificationServiceExtension {
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
-        
+
         if let bestAttemptContent = bestAttemptContent {
             var urlString: String? = nil
             let mediaArray: NSArray = bestAttemptContent.userInfo["media"] as! NSArray
@@ -39,7 +46,12 @@ class NotificationService: UNNotificationServiceExtension {
                 bestAttemptContent.attachments = [ mediaAttachment ]
             }
             
-            
+            var  notification = [String : Any]()
+            for (key, value) in bestAttemptContent.userInfo {
+                notification[key as! String] = value
+            }
+
+            Analytics.main.track(name: "Push Delivered", properties: notification)
             contentHandler(bestAttemptContent)
         }
         

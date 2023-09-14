@@ -69,9 +69,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
         Tab1ViewController.addPush(s: "Received in foreground: \(userInfo)")
+
         Analytics.main.receivedRemoteNotification(userInfo: userInfo)
-        
         handleNotificiation(notification: userInfo, shouldAsk: true)
+        
         return .noData
     }
     
