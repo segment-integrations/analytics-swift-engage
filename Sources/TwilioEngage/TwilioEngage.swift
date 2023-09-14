@@ -55,7 +55,7 @@ public class TwilioEngage: EventPlugin {
         self.statusCallback = statusCallback
     }
     
-    public var deviceToken: String? = nil
+    public var deviceToken: String? = UserDefaults.standard.string(forKey: "deviceToken") ?? nil
     
     public func configure(analytics: Analytics) {
         self.analytics = analytics
@@ -155,7 +155,6 @@ extension TwilioEngage: RemoteNotifications {
     }
     
     public func declinedRemoteNotifications() {
-        self.deviceToken = nil
         self.status = .didNotSubscribe
         analytics?.track(name: Events.declined.rawValue)
         print("Push Notifications were declined.")
@@ -165,13 +164,13 @@ extension TwilioEngage: RemoteNotifications {
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
         self.deviceToken = token
+        UserDefaults.standard.set(token, forKey: "deviceToken")
         self.status = .subscribed
         analytics?.track(name: Events.registered.rawValue, properties: ["token": token])
         print("Registered for Push Notifications (token=\(token)")
     }
     
     public func failedToRegisterForRemoteNotification(error: Error?) {
-        self.deviceToken = nil
         self.status = .didNotSubscribe
         analytics?.track(name: Events.unregistered.rawValue, properties: ["error": error?.localizedDescription ?? NSNull() ])
         print("Unable to register for Push Notifications (error=\(error?.localizedDescription ?? "unknown")")
