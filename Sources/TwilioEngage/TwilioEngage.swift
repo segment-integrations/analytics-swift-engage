@@ -209,4 +209,3 @@ extension NotificationTracking: macOSLifecycle {
 #endif
 
 #endif // !Linux
-#endif // !Linux
