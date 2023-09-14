@@ -36,7 +36,7 @@ public class TwilioEngage: EventPlugin {
     }
     
     internal let userDefaults = UserDefaults(suiteName: "com.twilio.engage")
-
+    
     public var status: Status {
         get {
             guard let value = userDefaults?.string(forKey: "Status") else { return .didNotSubscribe }
@@ -113,11 +113,10 @@ public class TwilioEngage: EventPlugin {
         // we only wanna look at track events
         guard var event = event as? TrackEvent else { return event }
         guard var context = event.context else { return event as? T }
-//        guard var properties = event.properties else {return event }
         
         // this will succeed if the event name can be used to generate a push event case.
         guard Events(rawValue: event.event) != nil else { return event as? T }
-       
+        
         // we only need to add a deDup_id to `push recieved` and `push opened` events
         if event.event == Events.tapped.rawValue || event.event == Events.received.rawValue {
             if var properties = event.properties?.dictionaryValue {
@@ -129,7 +128,7 @@ public class TwilioEngage: EventPlugin {
                 event.properties = try? JSON(properties)
             }
         }
-
+        
         // `messaging_subscription` data type is an array of objects
         context[keyPath: KeyPath(Self.contextKey)] = [[
             "key": deviceToken,
@@ -137,26 +136,21 @@ public class TwilioEngage: EventPlugin {
             "status": status.rawValue
         ]]
         
-      
+        
         event.context = context
         return event as? T
     }
     
-    func trackNotification(_ properties: [String: Any], fromLaunch launch: Bool) {
-        if launch {
-            analytics?.track(name: Events.tapped.rawValue, properties: properties)
-            print("Push Notification Tapped (launch=true)")
-        } else {
-            analytics?.track(name: Events.received.rawValue, properties: properties)
-            print("Push Notification Received (launch=false)")
-        }
+    func trackNotification(_ properties: [String: Any]) {
+        analytics?.track(name: Events.tapped.rawValue, properties: properties)
     }
 }
 
 extension TwilioEngage: RemoteNotifications {
     public func receivedRemoteNotification(userInfo: [AnyHashable: Any]) {
         if let notification = userInfo as? [String: Any] {
-            trackNotification(notification, fromLaunch: false)
+            trackNotification(notification)
+            
         }
     }
     
@@ -191,7 +185,7 @@ extension TwilioEngage: iOSLifecycle {
     public func application(_ application: UIApplication?, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         // notification was received while the app was not running.
         if let notification = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [String: Codable] {
-            trackNotification(notification, fromLaunch: true)
+            trackNotification(notification)
         }
     }
     
