@@ -17,8 +17,7 @@ This plugin enables Segment's Analytics SDK to do push notification management w
 ## Getting Started
 
 To get started:
-1. follow the set up instructions for Analytics Swift [here](https://segment.com/docs/connections/sources/catalog/libraries/mobile/kotlin-android/#getting-started) 
-to integrate Segment's Analytics SDK into your app. 
+1. Follow the [setup instructions for Analytics Swift](https://segment.com/docs/connections/sources/catalog/libraries/mobile/apple/#getting-started) to integrate Segment's Analytics SDK into your app. 
 2. add the dependency: 
 
 ### via Xcode
