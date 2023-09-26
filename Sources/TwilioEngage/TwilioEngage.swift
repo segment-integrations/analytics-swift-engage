@@ -123,7 +123,7 @@ public class TwilioEngage: EventPlugin {
                 let messageId = properties["message_id"] ?? UUID().toString()
                 let deDup_id = "\(formattedEventName)\(messageId)"
                 properties[keyPath: "dedup_id"] = deDup_id
-                
+                properties[keyPath: "event_id"] = messageId
                 event.properties = try? JSON(properties)
             }
         }
