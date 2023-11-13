@@ -8,24 +8,25 @@
 import UIKit
 import Segment
 import UserNotifications
+import UserNotificationsUI
 import ProgressWebViewController
 import TwilioEngage
+import BrazeKit
 
 extension Analytics {
-    static var main = Analytics(configuration: Configuration(writeKey: "<WRITE_KEY")
+    static var main = Analytics(configuration: Configuration(writeKey: "7O86AjgXwDLHxwXapRDkSFvqRzLA5n1V")
         .flushAt(1)
         .trackApplicationLifecycleEvents(true))
 }
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    let engage = TwilioEngage { previous, current in
+        Tab1ViewController.addPush(s: "Push Status Changed = \(current)")
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Analytics.main.add(plugin: UIKitScreenTracking())
-        
-        let engage = TwilioEngage { previous, current in
-            Tab1ViewController.addPush(s: "Push Status Changed = \(current)")
-        }
         
         Analytics.main.add(plugin: engage)
         
@@ -35,6 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let center  = UNUserNotificationCenter.current()
         center.delegate = self
+        
+        let categories = engage.createDefaultCategories()
+        
+        UNUserNotificationCenter.current()
+            .setNotificationCategories(categories)
+        
         center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
             guard granted else {
                 Analytics.main.declinedRemoteNotifications()
@@ -68,21 +75,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Tab1ViewController.addPush(s: "Failed to register for Notifications")
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler:
+        @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        let userInfo = notification.request.content.userInfo
         Tab1ViewController.addPush(s: "Received in foreground: \(userInfo)")
-
         Analytics.main.receivedRemoteNotification(userInfo: userInfo)
-        handleNotificiation(notification: userInfo, shouldAsk: true)
         
-        return .noData
+        completionHandler([.banner, .sound, .badge])
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+    {
         let userInfo = response.notification.request.content.userInfo
         Tab1ViewController.addPush(s: "Received in background: \(userInfo)")
         Analytics.main.receivedRemoteNotification(userInfo: userInfo)
-        
-        handleNotificiation(notification: userInfo, shouldAsk: false)
+        guard var deepLinkString = userInfo["link"] as? String else { return }
+
+        print("****DEEPLINK STRING \(deepLinkString)********")
+        engage.handleNotificiation(response: response)
+        completionHandler()
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -109,6 +124,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 extension AppDelegate {
     func openWebview(notification: [AnyHashable : Any], shouldAsk: Bool) {
         let webViewController = ProgressWebViewController(nibName: "Main", bundle: Bundle.main)
+        
+//        let webView = WebViewController(nibName: "Main", bundle: Bundle.main)
         
         guard var urlString = notification["link"] as? String else { return }
         urlString = urlString.replacingOccurrences(of: "engage://", with: "https://")
@@ -177,26 +194,4 @@ extension AppDelegate {
             mainView?.navigationController?.pushViewController(deepLinkVC, animated: true)
         }
     }
-    
-    func handleNotificiation(notification: [AnyHashable: Any], shouldAsk: Bool) {
-        if let aps = notification["aps"] as? NSDictionary {
-            if let tapAction = aps["category"] as? String {
-                switch tapAction {
-                case "open_url":
-                    // open link in default browser
-                    if let urlString = notification["link"] as? String {
-                        guard let url = URL(string: urlString) else {return}
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    }
-                    // alternatively, open a webview inside of your app
-                    // openWebview(notification: notification, shouldAsk: shouldAsk)
-                case "deep_link":
-                    openDeepLinkViewController(notification: notification, shouldAsk: shouldAsk)
-                default:
-                    return
-                }
-            }
-        }
-    }
 }
-

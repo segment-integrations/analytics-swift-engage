@@ -174,6 +174,146 @@ extension TwilioEngage: RemoteNotifications {
         analytics?.track(name: Events.unregistered.rawValue, properties: ["error": error?.localizedDescription ?? NSNull() ])
         print("Unable to register for Push Notifications (error=\(error?.localizedDescription ?? "unknown")")
     }
+    
+    public func handleForegroundNotification(userinfo: [AnyHashable: Any]) {
+        
+    }
+    
+    public func handleNotificiation(response: UNNotificationResponse) {
+        let userInfo = response.notification.request.content.userInfo
+        let identity = response.notification
+            .request.content.categoryIdentifier
+        let actionIdentifier = response.actionIdentifier
+        
+        switch identity {
+        case "open_url":
+            let webView = WebViewController(nibName: "Main", bundle: Bundle.main)
+            if let urlString = userInfo["link"] as? String {
+                guard let url = URL(string: urlString) else {return}
+                print("******URLSTRING\(urlString)*********")
+                webView.url = url
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                
+            }
+        case "deep_link":
+            Notification.Name.openButton.post(userInfo: userInfo)
+
+//            if let urlString = userInfo["link"] as? String {
+//                print("****NOTIFICATION METHOD LINK \(urlString)**********")
+//                }
+        default:
+            return
+        }
+        
+        handleActionButtons(identity: identity, actionIdentifier: actionIdentifier, userInfo: userInfo)
+    }
+    
+    func handleActionButtons(identity: String, actionIdentifier: String, userInfo: [AnyHashable: Any]) {
+        
+        guard identity == DefaultCategoryIdentifiers(rawValue: identity)?.rawValue ?? "open_app",
+              let action = ActionIdentifier(rawValue: actionIdentifier)else {return}
+
+        if let aps = userInfo["aps"] as? NSDictionary {
+            if let tapAction = aps["category"] as? String {
+                switch tapAction {
+                case "open_url":
+                    guard let link = userInfo["link"] as? String else { return }
+                    guard let url = URL(string: link) else {return}
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                case "deep_link":
+//                    Notification.Name.openButton.post(userInfo: userInfo)
+                    print("LINK")
+                default:
+                    return
+                }
+            }
+        }
+        
+//        switch action {
+//        case .accept:
+//            Notification.Name.openButton.post(userInfo: userInfo)
+//        case .reject:
+//            Notification.Name.dismissButton.post()
+//        }
+        
+        print("You pressed \(action)")
+    }
+}
+
+extension TwilioEngage {
+    
+    public enum DefaultCategoryIdentifiers: String, CaseIterable {
+        case app = "open_app"
+        case web = "open_url"
+        case deep_link = "deep_link"
+    }
+    
+    public enum ActionIdentifier: String {
+        case accept, reject
+    }
+    
+    
+    public func createDefaultCategories() -> Set<UNNotificationCategory> {
+        var defaultCategories: Set<UNNotificationCategory> = []
+        
+        for category in DefaultCategoryIdentifiers.allCases {
+            switch category.rawValue {
+            case "open_url":
+                let accept = UNNotificationAction(
+                    identifier: ActionIdentifier.accept.rawValue,
+                    title: "Open Link",
+                    options: [UNNotificationActionOptions.foreground])
+
+                
+                let reject = UNNotificationAction(
+                    identifier: ActionIdentifier.reject.rawValue,
+                    title: "Dismiss")
+                
+                let category = UNNotificationCategory(
+                    identifier: category.rawValue,
+                    actions: [accept, reject],
+                    intentIdentifiers: [])
+                
+                defaultCategories.insert(category)
+            case "deep_link":
+                let accept = UNNotificationAction(
+                    identifier: ActionIdentifier.accept.rawValue,
+                    title: "Open",
+                    options: [UNNotificationActionOptions.foreground])
+
+                
+                let reject = UNNotificationAction(
+                    identifier: ActionIdentifier.reject.rawValue,
+                    title: "Dismiss")
+                
+                let category = UNNotificationCategory(
+                    identifier: category.rawValue,
+                    actions: [accept, reject],
+                    intentIdentifiers: [])
+                
+                defaultCategories.insert(category)
+                
+            default:
+                let accept = UNNotificationAction(
+                    identifier: ActionIdentifier.accept.rawValue,
+                    title: "Open App",
+                    options: [UNNotificationActionOptions.foreground])
+                
+                let reject = UNNotificationAction(
+                    identifier: ActionIdentifier.reject.rawValue,
+                    title: "Dismiss")
+                
+                let category = UNNotificationCategory(
+                    identifier: category.rawValue,
+                    actions: [accept, reject],
+                    intentIdentifiers: [])
+                
+                defaultCategories.insert(category)
+            }
+        }
+        
+        return defaultCategories
+    }
 }
 
 

@@ -11,12 +11,30 @@
         }
       },
       {
+        "package": "braze-swift-sdk",
+        "repositoryURL": "https://github.com/braze-inc/braze-swift-sdk",
+        "state": {
+          "branch": null,
+          "revision": "d2b2407bb184e1eded6209458be94e7761ed4b91",
+          "version": "7.1.0"
+        }
+      },
+      {
         "package": "ProgressWebViewController",
         "repositoryURL": "https://github.com/bsneed/ProgressWebViewController.git",
         "state": {
           "branch": "master",
           "revision": "83b377efe429e702c6adab3b86b0c2e6a6871e1d",
           "version": null
+        }
+      },
+      {
+        "package": "SDWebImage",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
+        "state": {
+          "branch": null,
+          "revision": "fd1950de05a5ad77cb252fd88576c1e1809ee50d",
+          "version": "5.18.4"
         }
       },
       {

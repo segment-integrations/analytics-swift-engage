@@ -12,6 +12,9 @@
 		46EDC6FA27C6B8D200B870D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46EDC6F927C6B8D200B870D7 /* Assets.xcassets */; };
 		46EDC6FD27C6B8D200B870D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46EDC6FC27C6B8D200B870D7 /* Preview Assets.xcassets */; };
 		46EDC72127C6B92C00B870D7 /* Segment in Frameworks */ = {isa = PBXBuildFile; productRef = 46EDC72027C6B92C00B870D7 /* Segment */; };
+		82001D4D2AFC150E00B552F8 /* BrazeNotificationService in Frameworks */ = {isa = PBXBuildFile; productRef = 82001D4C2AFC150E00B552F8 /* BrazeNotificationService */; };
+		82001D4F2AFC150E00B552F8 /* BrazePushStory in Frameworks */ = {isa = PBXBuildFile; productRef = 82001D4E2AFC150E00B552F8 /* BrazePushStory */; };
+		82001D512AFD802100B552F8 /* BrazeKit in Frameworks */ = {isa = PBXBuildFile; productRef = 82001D502AFD802100B552F8 /* BrazeKit */; };
 		8275F4FB2AB23778004C0908 /* TwilioEngage in Frameworks */ = {isa = PBXBuildFile; productRef = 8275F4FA2AB23778004C0908 /* TwilioEngage */; };
 		82D179FB2A8166A700318017 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D179FA2A8166A700318017 /* NotificationService.swift */; };
 		82D179FF2A8166A700318017 /* TwiliEngageExampleNotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 82D179F82A8166A700318017 /* TwiliEngageExampleNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -76,7 +79,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82001D4D2AFC150E00B552F8 /* BrazeNotificationService in Frameworks */,
 				46EDC72127C6B92C00B870D7 /* Segment in Frameworks */,
+				82001D512AFD802100B552F8 /* BrazeKit in Frameworks */,
+				82001D4F2AFC150E00B552F8 /* BrazePushStory in Frameworks */,
 				460DF9D02ABE0C4100F94193 /* TwilioEngage in Frameworks */,
 				460DF9CE2ABE0B4700F94193 /* ProgressWebViewController in Frameworks */,
 			);
@@ -205,6 +211,9 @@
 				46EDC72027C6B92C00B870D7 /* Segment */,
 				460DF9CD2ABE0B4700F94193 /* ProgressWebViewController */,
 				460DF9CF2ABE0C4100F94193 /* TwilioEngage */,
+				82001D4C2AFC150E00B552F8 /* BrazeNotificationService */,
+				82001D4E2AFC150E00B552F8 /* BrazePushStory */,
+				82001D502AFD802100B552F8 /* BrazeKit */,
 			);
 			productName = BasicExample;
 			productReference = 46EDC6F227C6B8D100B870D7 /* BasicExample.app */;
@@ -262,6 +271,7 @@
 			packageReferences = (
 				46EDC71F27C6B92C00B870D7 /* XCRemoteSwiftPackageReference "analytics-swift" */,
 				460DF9CC2ABE0B4700F94193 /* XCRemoteSwiftPackageReference "ProgressWebViewController" */,
+				82001D4B2AFC150E00B552F8 /* XCRemoteSwiftPackageReference "braze-swift-sdk" */,
 			);
 			productRefGroup = 46EDC6F327C6B8D100B870D7 /* Products */;
 			projectDirPath = "";
@@ -458,10 +468,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BasicExample/BasicExample.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BasicExample/Preview Content\"";
-				DEVELOPMENT_TEAM = 75C92E9Q7J;
+				DEVELOPMENT_TEAM = VPZ4UMT2G9;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -478,6 +489,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.segment.twilioEngage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "BasicExample/BasicExample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -494,10 +506,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BasicExample/BasicExample.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BasicExample/Preview Content\"";
-				DEVELOPMENT_TEAM = 75C92E9Q7J;
+				DEVELOPMENT_TEAM = VPZ4UMT2G9;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -514,6 +527,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.segment.twilioEngage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "BasicExample/BasicExample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -528,7 +542,7 @@
 				CODE_SIGN_ENTITLEMENTS = TwiliEngageExampleNotificationService/TwiliEngageExampleNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 75C92E9Q7J;
+				DEVELOPMENT_TEAM = VPZ4UMT2G9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TwiliEngageExampleNotificationService/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TwiliEngageExampleNotificationService;
@@ -556,7 +570,7 @@
 				CODE_SIGN_ENTITLEMENTS = TwiliEngageExampleNotificationService/TwiliEngageExampleNotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 75C92E9Q7J;
+				DEVELOPMENT_TEAM = VPZ4UMT2G9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TwiliEngageExampleNotificationService/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TwiliEngageExampleNotificationService;
@@ -626,6 +640,14 @@
 				minimumVersion = 1.4.7;
 			};
 		};
+		82001D4B2AFC150E00B552F8 /* XCRemoteSwiftPackageReference "braze-swift-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/braze-inc/braze-swift-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -642,6 +664,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 46EDC71F27C6B92C00B870D7 /* XCRemoteSwiftPackageReference "analytics-swift" */;
 			productName = Segment;
+		};
+		82001D4C2AFC150E00B552F8 /* BrazeNotificationService */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 82001D4B2AFC150E00B552F8 /* XCRemoteSwiftPackageReference "braze-swift-sdk" */;
+			productName = BrazeNotificationService;
+		};
+		82001D4E2AFC150E00B552F8 /* BrazePushStory */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 82001D4B2AFC150E00B552F8 /* XCRemoteSwiftPackageReference "braze-swift-sdk" */;
+			productName = BrazePushStory;
+		};
+		82001D502AFD802100B552F8 /* BrazeKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 82001D4B2AFC150E00B552F8 /* XCRemoteSwiftPackageReference "braze-swift-sdk" */;
+			productName = BrazeKit;
 		};
 		8275F4F62AB2246A004C0908 /* Segment */ = {
 			isa = XCSwiftPackageProductDependency;
