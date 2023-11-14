@@ -8,11 +8,10 @@
 import Foundation
 
 public extension Notification.Name {
-  // 1
+  
  static let openButton = Notification.Name("acceptTapped")
  static let dismissButton = Notification.Name("rejectTapped")
 
-  // 2
   func post(
     center: NotificationCenter = NotificationCenter.default,
     object: Any? = nil,
@@ -21,7 +20,6 @@ public extension Notification.Name {
     center.post(name: self, object: object, userInfo: userInfo)
   }
 
-  // 3
   @discardableResult
   func onPost(
     center: NotificationCenter = NotificationCenter.default,

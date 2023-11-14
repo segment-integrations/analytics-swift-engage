@@ -36,9 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let center  = UNUserNotificationCenter.current()
         center.delegate = self
         
-        let customAction = TwilioEngage.CustomAction(category: "customized_push", acceptActionTitle: "Accept Title", dismissActionTitle: "Dismiss Title")
+        let customCategory = TwilioEngage.CustomCategory(title: "customized_push", acceptActionTitle: "Accept Title", dismissActionTitle: "Dismiss Title")
         
-        let categories = engage.createDefaultCategories(customCategories: customAction)
+        let categories = engage.createDefaultCategories(customCategory: customCategory)
         
         UNUserNotificationCenter.current()
             .setNotificationCategories(categories)
@@ -94,7 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let userInfo = response.notification.request.content.userInfo
         Tab1ViewController.addPush(s: "Received in background: \(userInfo)")
         Analytics.main.receivedRemoteNotification(userInfo: userInfo)
-        guard var deepLinkString = userInfo["link"] as? String else { return }
 
         engage.handleNotificiation(response: response)
         completionHandler()

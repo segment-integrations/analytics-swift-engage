@@ -245,19 +245,19 @@ extension TwilioEngage {
         case accept, reject
     }
     
-    public struct CustomAction {
-        public var category: String? = nil
+    public struct CustomCategory {
+        public var title: String? = nil
         public var acceptActionTitle: String? = nil
         public var dismissActionTitle: String? = nil
         
-        public init(category: String? = nil, acceptActionTitle: String? = nil, dismissActionTitle: String? = nil) {
-            self.category = category
+        public init(title: String? = nil, acceptActionTitle: String? = nil, dismissActionTitle: String? = nil) {
+            self.title = title
             self.acceptActionTitle = acceptActionTitle
             self.dismissActionTitle = dismissActionTitle
         }
     }
     
-    public func createDefaultCategories(customCategories: CustomAction? =  nil) -> Set<UNNotificationCategory> {
+    public func createDefaultCategories(customCategory: CustomCategory? =  nil) -> Set<UNNotificationCategory> {
         var defaultCategories: Set<UNNotificationCategory> = []
         
         for category in DefaultCategoryIdentifiers.allCases {
@@ -332,10 +332,10 @@ extension TwilioEngage {
             }
         }
         
-        if (customCategories != nil) {
-            let categoryIdentifier = customCategories?.category as? String ?? "custom_category"
-            let acceptButtonTitle = customCategories?.acceptActionTitle as? String ?? "Open"
-            let dismissButtonTitle = customCategories?.dismissActionTitle as? String ?? "Dismiss"
+        if (customCategory != nil) {
+            let categoryIdentifier = customCategory?.title as? String ?? "custom_category"
+            let acceptButtonTitle = customCategory?.acceptActionTitle as? String ?? "Open"
+            let dismissButtonTitle = customCategory?.dismissActionTitle as? String ?? "Dismiss"
             
             let accept = UNNotificationAction(
                 identifier: ActionIdentifier.accept.rawValue,
