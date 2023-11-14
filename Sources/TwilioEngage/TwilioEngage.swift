@@ -32,6 +32,8 @@ public class TwilioEngage: EventPlugin {
         case unregistered = "Unable to Register for Push"
         case changed = "Push Subscription Change"
         case declined = "Push Subscription Declined"
+        case action = "Action Button Pressed"
+        case actionIgnored = "Action Button Declined"
     }
     
     internal let userDefaults = UserDefaults(suiteName: "com.twilio.engage")
@@ -135,7 +137,6 @@ public class TwilioEngage: EventPlugin {
             "status": status.rawValue
         ]]
         
-        
         event.context = context
         return event as? T
     }
@@ -175,36 +176,25 @@ extension TwilioEngage: RemoteNotifications {
         print("Unable to register for Push Notifications (error=\(error?.localizedDescription ?? "unknown")")
     }
     
-    public func handleForegroundNotification(userinfo: [AnyHashable: Any]) {
-        
-    }
-    
     public func handleNotificiation(response: UNNotificationResponse) {
         let userInfo = response.notification.request.content.userInfo
         let identity = response.notification
             .request.content.categoryIdentifier
         let actionIdentifier = response.actionIdentifier
-        
+
         switch identity {
         case "open_url":
-            let webView = WebViewController(nibName: "Main", bundle: Bundle.main)
             if let urlString = userInfo["link"] as? String {
                 guard let url = URL(string: urlString) else {return}
-                print("******URLSTRING\(urlString)*********")
-                webView.url = url
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 
             }
         case "deep_link":
             Notification.Name.openButton.post(userInfo: userInfo)
-
-//            if let urlString = userInfo["link"] as? String {
-//                print("****NOTIFICATION METHOD LINK \(urlString)**********")
-//                }
         default:
             return
         }
-        
+
         handleActionButtons(identity: identity, actionIdentifier: actionIdentifier, userInfo: userInfo)
     }
     
@@ -212,7 +202,15 @@ extension TwilioEngage: RemoteNotifications {
         
         guard identity == DefaultCategoryIdentifiers(rawValue: identity)?.rawValue ?? "open_app",
               let action = ActionIdentifier(rawValue: actionIdentifier)else {return}
-
+        
+        switch action {
+        case .accept:
+            analytics?.track(name: Events.action.rawValue, properties: ["action_id": identity])
+        case .reject:
+            analytics?.track(name: Events.actionIgnored.rawValue, properties: ["action_id": identity])
+            Notification.Name.dismissButton.post(userInfo: userInfo)
+        }
+        
         if let aps = userInfo["aps"] as? NSDictionary {
             if let tapAction = aps["category"] as? String {
                 switch tapAction {
@@ -220,22 +218,12 @@ extension TwilioEngage: RemoteNotifications {
                     guard let link = userInfo["link"] as? String else { return }
                     guard let url = URL(string: link) else {return}
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                case "deep_link":
-//                    Notification.Name.openButton.post(userInfo: userInfo)
-                    print("LINK")
                 default:
                     return
                 }
             }
         }
-        
-//        switch action {
-//        case .accept:
-//            Notification.Name.openButton.post(userInfo: userInfo)
-//        case .reject:
-//            Notification.Name.dismissButton.post()
-//        }
-        
+
         print("You pressed \(action)")
     }
 }

@@ -24,7 +24,6 @@ class Tab1ViewController: UITableViewController {
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "pushCell")
         
         Notification.Name.openButton.onPost { notification in
-            print("***CLOSURE VAR \(notification)*****")
             let name = notification.name
             guard let deeplink = notification.userInfo?["link"] as? String else {return}
             print("****DEEPLINK \(deeplink)*******")
@@ -33,13 +32,6 @@ class Tab1ViewController: UITableViewController {
             let deepLinkScreen = deeplink.replacingOccurrences(of: "engage://", with: "")
             let deepLinkVC = storyboard.instantiateViewController(identifier: deepLinkScreen)
             mainView?.navigationController?.pushViewController(deepLinkVC, animated: true)
-
-//            let alert = UIAlertController(
-//                title: "New Product Alert!",
-//                message: "title",
-//                preferredStyle: UIAlertController.Style.alert
-//            )
-//            self?.addA
         }
     }
         

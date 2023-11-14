@@ -11,10 +11,9 @@ import UserNotifications
 import UserNotificationsUI
 import ProgressWebViewController
 import TwilioEngage
-import BrazeKit
 
 extension Analytics {
-    static var main = Analytics(configuration: Configuration(writeKey: "7O86AjgXwDLHxwXapRDkSFvqRzLA5n1V")
+    static var main = Analytics(configuration: Configuration(writeKey: "<WRITE_KEY>")
         .flushAt(1)
         .trackApplicationLifecycleEvents(true))
 }
@@ -95,7 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Analytics.main.receivedRemoteNotification(userInfo: userInfo)
         guard var deepLinkString = userInfo["link"] as? String else { return }
 
-        print("****DEEPLINK STRING \(deepLinkString)********")
         engage.handleNotificiation(response: response)
         completionHandler()
     }
@@ -124,9 +122,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 extension AppDelegate {
     func openWebview(notification: [AnyHashable : Any], shouldAsk: Bool) {
         let webViewController = ProgressWebViewController(nibName: "Main", bundle: Bundle.main)
-        
-//        let webView = WebViewController(nibName: "Main", bundle: Bundle.main)
-        
         guard var urlString = notification["link"] as? String else { return }
         urlString = urlString.replacingOccurrences(of: "engage://", with: "https://")
         guard let url = URL(string: urlString) else { return }
