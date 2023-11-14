@@ -40,7 +40,7 @@ class NotificationService: UNNotificationServiceExtension {
             contentHandler(bestAttemptContent)
         }
     }
-    
+}
 
 //add an extension to `UNNotificationAttachment` to download/save the image
 @available(iOSApplicationExtension 10.0, *)
