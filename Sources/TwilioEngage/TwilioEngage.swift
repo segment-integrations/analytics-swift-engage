@@ -130,12 +130,16 @@ public class TwilioEngage: EventPlugin {
             }
         }
         
-        // `messaging_subscription` data type is an array of objects
-        context[keyPath: KeyPath(Self.contextKey)] = [[
-            "key": deviceToken,
-            "type": Self.subscriptionType,
-            "status": status.rawValue
-        ]]
+        //only events that manipulate a user's subscription status
+        //should include `messaging_subscription` data
+        if event.event != Events.opened.rawValue {
+            // `messaging_subscription` data type is an array of objects
+            context[keyPath: KeyPath(Self.contextKey)] = [[
+                "key": deviceToken,
+                "type": Self.subscriptionType,
+                "status": status.rawValue
+            ]]
+        }
         
         event.context = context
         return event as? T
