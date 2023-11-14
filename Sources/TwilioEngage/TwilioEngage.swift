@@ -32,6 +32,8 @@ public class TwilioEngage: EventPlugin {
         case unregistered = "Unable to Register for Push"
         case changed = "Push Subscription Change"
         case declined = "Push Subscription Declined"
+        case action = "Action Button Pressed"
+        case actionIgnored = "Action Button Declined"
     }
     
     internal let userDefaults = UserDefaults(suiteName: "com.twilio.engage")
@@ -128,13 +130,16 @@ public class TwilioEngage: EventPlugin {
             }
         }
         
-        // `messaging_subscription` data type is an array of objects
-        context[keyPath: KeyPath(Self.contextKey)] = [[
-            "key": deviceToken,
-            "type": Self.subscriptionType,
-            "status": status.rawValue
-        ]]
-        
+        //only events that manipulate a user's subscription status
+        //should include `messaging_subscription` data
+        if event.event != Events.opened.rawValue {
+            // `messaging_subscription` data type is an array of objects
+            context[keyPath: KeyPath(Self.contextKey)] = [[
+                "key": deviceToken,
+                "type": Self.subscriptionType,
+                "status": status.rawValue
+            ]]
+        }
         
         event.context = context
         return event as? T
@@ -173,6 +178,182 @@ extension TwilioEngage: RemoteNotifications {
         self.status = .didNotSubscribe
         analytics?.track(name: Events.unregistered.rawValue, properties: ["error": error?.localizedDescription ?? NSNull() ])
         print("Unable to register for Push Notifications (error=\(error?.localizedDescription ?? "unknown")")
+    }
+    
+    public func handleNotificiation(response: UNNotificationResponse) {
+        let userInfo = response.notification.request.content.userInfo
+        let identity = response.notification
+            .request.content.categoryIdentifier
+        let actionIdentifier = response.actionIdentifier
+
+        switch identity {
+        case "open_app":
+            return
+        case "deep_link":
+            Notification.Name.openButton.post(userInfo: userInfo)
+        case "open_url":
+            if let urlString = userInfo["link"] as? String {
+                guard let url = URL(string: urlString) else {return}
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        default:
+            Notification.Name.openButton.post(userInfo: userInfo)
+        }
+
+        handleActionButtons(identity: identity, actionIdentifier: actionIdentifier, userInfo: userInfo)
+    }
+    
+    func handleActionButtons(identity: String, actionIdentifier: String, userInfo: [AnyHashable: Any]) {
+        
+        guard identity == DefaultCategoryIdentifiers(rawValue: identity)?.rawValue ?? "open_app",
+              let action = ActionIdentifier(rawValue: actionIdentifier)else {return}
+        
+        switch action {
+        case .accept:
+            analytics?.track(name: Events.action.rawValue, properties: ["action_id": identity])
+        case .reject:
+            analytics?.track(name: Events.actionIgnored.rawValue, properties: ["action_id": identity])
+            Notification.Name.dismissButton.post(userInfo: userInfo)
+        }
+        
+        if let aps = userInfo["aps"] as? NSDictionary {
+            if let tapAction = aps["category"] as? String {
+                switch tapAction {
+                case "open_url":
+                    guard let link = userInfo["link"] as? String else { return }
+                    guard let url = URL(string: link) else {return}
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                default:
+                    return
+                }
+            }
+        }
+
+        print("You pressed \(action)")
+    }
+}
+
+extension TwilioEngage {
+    
+    public enum DefaultCategoryIdentifiers: String, CaseIterable {
+        case app = "open_app"
+        case web = "open_url"
+        case deep_link = "deep_link"
+    }
+    
+    public enum ActionIdentifier: String {
+        case accept, reject
+    }
+    
+    public struct CustomCategory {
+        public var title: String? = nil
+        public var acceptActionTitle: String? = nil
+        public var dismissActionTitle: String? = nil
+        
+        public init(title: String? = nil, acceptActionTitle: String? = nil, dismissActionTitle: String? = nil) {
+            self.title = title
+            self.acceptActionTitle = acceptActionTitle
+            self.dismissActionTitle = dismissActionTitle
+        }
+    }
+    
+    public func createDefaultCategories(customCategory: CustomCategory? =  nil) -> Set<UNNotificationCategory> {
+        var defaultCategories: Set<UNNotificationCategory> = []
+        
+        for category in DefaultCategoryIdentifiers.allCases {
+            switch category.rawValue {
+            case "open_app":
+                let accept = UNNotificationAction(
+                    identifier: ActionIdentifier.accept.rawValue,
+                    title: "Open App",
+                    options: [UNNotificationActionOptions.foreground])
+                
+                let reject = UNNotificationAction(
+                    identifier: ActionIdentifier.reject.rawValue,
+                    title: "Dismiss")
+                
+                let category = UNNotificationCategory(
+                    identifier: category.rawValue,
+                    actions: [accept, reject],
+                    intentIdentifiers: [])
+                
+                defaultCategories.insert(category)
+            case "open_url":
+                let accept = UNNotificationAction(
+                    identifier: ActionIdentifier.accept.rawValue,
+                    title: "Open Link",
+                    options: [UNNotificationActionOptions.foreground])
+                
+                
+                let reject = UNNotificationAction(
+                    identifier: ActionIdentifier.reject.rawValue,
+                    title: "Dismiss")
+                
+                let category = UNNotificationCategory(
+                    identifier: category.rawValue,
+                    actions: [accept, reject],
+                    intentIdentifiers: [])
+                
+                defaultCategories.insert(category)
+            case "deep_link":
+                let accept = UNNotificationAction(
+                    identifier: ActionIdentifier.accept.rawValue,
+                    title: "Open",
+                    options: [UNNotificationActionOptions.foreground])
+                
+                
+                let reject = UNNotificationAction(
+                    identifier: ActionIdentifier.reject.rawValue,
+                    title: "Dismiss")
+                
+                let category = UNNotificationCategory(
+                    identifier: category.rawValue,
+                    actions: [accept, reject],
+                    intentIdentifiers: [])
+                
+                defaultCategories.insert(category)
+                
+            default:
+                let accept = UNNotificationAction(
+                    identifier: ActionIdentifier.accept.rawValue,
+                    title:  "Open",
+                    options: [UNNotificationActionOptions.foreground])
+                
+                let reject = UNNotificationAction(
+                    identifier: ActionIdentifier.reject.rawValue,
+                    title: "Dismiss")
+                
+                let category = UNNotificationCategory(
+                    identifier: category.rawValue,
+                    actions: [accept, reject],
+                    intentIdentifiers: [])
+                
+                defaultCategories.insert(category)
+            }
+        }
+        
+        if (customCategory != nil) {
+            let categoryIdentifier = customCategory?.title as? String ?? "custom_category"
+            let acceptButtonTitle = customCategory?.acceptActionTitle as? String ?? "Open"
+            let dismissButtonTitle = customCategory?.dismissActionTitle as? String ?? "Dismiss"
+            
+            let accept = UNNotificationAction(
+                identifier: ActionIdentifier.accept.rawValue,
+                title:  acceptButtonTitle,
+                options: [UNNotificationActionOptions.foreground])
+            
+            let reject = UNNotificationAction(
+                identifier: ActionIdentifier.reject.rawValue,
+                title: dismissButtonTitle)
+            
+            let category = UNNotificationCategory(
+                identifier: categoryIdentifier,
+                actions: [accept, reject],
+                intentIdentifiers: [])
+            
+            defaultCategories.insert(category)
+        }
+        return defaultCategories
     }
 }
 

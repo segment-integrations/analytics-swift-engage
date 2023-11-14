@@ -4,9 +4,9 @@
 - [Twilio Engage Destination](#twilio-engage-destination)
   - [Getting Started](#getting-started)
   - [Subscription](#subscription)
-  - [Additional Setup](#additional-setup)
   - [Predefined Actions](#predefined-actions)
-  - [Handling Notifications](#handling-notifications)
+  - [Default Notification Handling](#default-notification-handling)
+  - [Custom Notification Handling](#custom-notification-handling)
   - [Handling Media](#handling-media)
     - [Create Extension](#creating-the-extension)
     - [Display Media](#displaying-media)
@@ -49,40 +49,27 @@ import Segment
 import TwilioEngage // <-- Add this line
 ```
 
-4. Just under your Analytics-Swift library setup, call `analytics.add(plugin: ...)` to add an instance of the plugin to the Analytics timeline.
+4. Add an `engage` variable at the top of your `ApplicationDelegate`.
+
+```
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    let engage = TwilioEngage { previous, current in
+        Tab1ViewController.addPush(s: "Push Status Changed = \(current)")
+    }
+```
+
+5. Just under your Analytics-Swift library setup, call `analytics.add(plugin: ...)` to add an instance of the plugin to the Analytics timeline.
 
 ```
 let analytics = Analytics(configuration: Configuration(writeKey: "<YOUR WRITE KEY>")
                     .flushAt(3)
                     .trackApplicationLifecycleEvents(true))
 
-let engage = TwilioEngage { previous, current in
-    print("Push Status Changed /(current)")
-}
-
 analytics.add(plugin: engage)
 ```
-## Subscription
 
-Once the plugin is setup, it automatically tracks and updates push notification subscriptions 
-according to device's notification permissions. To listen to the subscription status changes, 
-provide a `StatusCallback` when initialize the plugin as following:
-```swift
-let engage = TwilioEngage { previous, current in
-    //handle status updates 
-    print("Push Status Changed /(current)")
-}
-```
-
-On iOS, three different statuses are tracked: `Subscribed`, `DidNotSubscribe`, `Unsubscribed`. 
-* `Subscribed` is reported whenever app user toggles their device settings to allow push notification
-* `DidNotSubscribe` is reported in fresh start where no status has ever been reported
-* `Unsubscribed` is reported whenever user toggles their device settings to disable push notification and when the SDK fails to obtain a token from APNS
-
-
-## Additional Setup 
-
-You will also need to add or modify the following methods in your `AppDelegate` in order to start receiving and handling push notifications: 
+6. Add the Following methods to your `AppDelegate` in order to start receiving and handling notifications 
 
 **AppDelegate**
 
@@ -125,23 +112,41 @@ func application(_ application: UIApplication, didFailToRegisterForRemoteNotific
     Analytics.main.failedToRegisterForRemoteNotification(error: error)
 }
 
-func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
-    //Segment event for receiving a remote notification
-    Analytics.main.receivedRemoteNotification(userInfo: userInfo)
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler:
+        @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        Analytics.main.receivedRemoteNotification(userInfo: userInfo)
+        
+        completionHandler([.banner, .sound, .badge])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+    {
+        Analytics.main.receivedRemoteNotification(userInfo: userInfo)
+        
+        completionHandler()
+    }
+```
 
-    //Handle the notification however you see fit
+## Subscription
 
-    return .noData
-}
-
-func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-    let userInfo = response.notification.request.content.userInfo
-    //Segment event for receiving a remote notification
-    Analytics.main.receivedRemoteNotification(userInfo: userInfo)
-
-    //Handle the notification however you see fit
+Once the plugin is setup, it automatically tracks and updates push notification subscriptions 
+according to device's notification permissions. To listen to the subscription status changes, 
+provide a `StatusCallback` when initialize the plugin as following:
+```swift
+let engage = TwilioEngage { previous, current in
+    //handle status updates 
+    print("Push Status Changed /(current)")
 }
 ```
+
+On iOS, three different statuses are tracked: `Subscribed`, `DidNotSubscribe`, `Unsubscribed`. 
+* `Subscribed` is reported whenever app user toggles their device settings to allow push notification
+* `DidNotSubscribe` is reported in fresh start where no status has ever been reported
+* `Unsubscribed` is reported whenever user toggles their device settings to disable push notification and when the SDK fails to obtain a token from APNS
 
 ## Predefined Actions
 
@@ -151,33 +156,92 @@ Twilio Engage provides 4 predefined `tapActions` that you can handle however you
 * `deep_link`: the application routes to the provided `link`
 * `<custom_action>`: a custom string which can be handled much like a deep-link depending on the use case.
 
-## Handling Notifications
 
-How you handle and display notifications is entirely up to you. Examples for each of the predefined `tapActions` can be found below: 
+## Default Notification Handling
+
+How you implement your push notification set up is entirely up to you. If you would prefer a "standard" implementation you can
+follow the instructions in this section. The behavior of your notifications will follow the options outlined in the [Predefined Actions section above](#predefined-actions). If you would prefer to handle notifications in your own way, refer to the following section, Custom Notification Handling. 
+
+1. Set the default notification categories inside the `didFinishinLaunchingWithOptions` method.
+
+```
+...
+    
+let center  = UNUserNotificationCenter.current()
+center.delegate = self
+        
+//add default categories
+let categories = engage.createDefaultCategories()
+        
+UNUserNotificationCenter.current()
+    .setNotificationCategories()
+```
+
+**Defining Custom Actions**
+You can define custom actions/categories to work in addition to the default ones outlined in [Predefined Actions](#predefined-actions). 
+
+```
+let customCategory = TwilioEngage.CustomCategory(title: "customized_push", acceptActionTitle: "Accept Title", dismissActionTitle: "Dismiss Title")
+        
+let categories = engage.createDefaultCategories(customCategory: customCategory)
+```
+
+2. Add the `handleNotification()` method to the `userNotificationCenter` `didReceive` method. 
+
+```
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+{
+    let userInfo = response.notification.request.content.userInfo
+    Analytics.main.receivedRemoteNotification(userInfo: userInfo)
+
+    //engage method to handle default notifications 
+    engage.handleNotificiation(response: response)
+    completionHandler()
+}
+```
+
+### Use the `Notification` extension to listen for `deep_links` and `custom_actions` 
+
+Since it is not possible for the Twilio Engage plugin to automatically route deep-links or determine the logic of a custom action, t plugin includes a Notification extension you can use to listen for and handle these notification types. See the [example app for a complete implementation](https://github.com/segment-integrations/analytics-swift-engage/blob/main/Example/BasicExample/BasicExample/Tab1ViewController.swift).
+
+```
+Notification.Name.openButton.onPost { notification in
+    guard let deeplink = notification.userInfo?["link"] as? String else {return}
+    print("Deep-link value: \(deeplink)")
+}
+```
+
+## Custom Notification Handling
+If you need more control over your notifications, you can implement the handling and displaying in any way you see fit. Your analytics events will still be tracked, provided you have followed the general implementation steps outlined above. Examples for each of the predefined `tapActions` can be found below: 
 
 **AppDelegate**
 
-When a push is received by a device the data is available in `didReceiveRemoteNotification` (recieved in background) and `userNotificationCenter` (recieved in foreground) in your AppDelegate
+When a push is received by a device the data is available in `userNotificationCenter: didReceive` (recieved in background) and `userNotificationCenter: willPresent` (recieved in foreground) in your AppDelegate.
 
 ```Swift
-func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
-    //Segment event for receiving a remote notification
+func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification,
+    withCompletionHandler completionHandler:
+    @escaping (UNNotificationPresentationOptions) -> Void
+) {
+    let userInfo = notification.request.content.userInfo
+    Tab1ViewController.addPush(s: "Received in foreground: \(userInfo)")
+    Analytics.main.receivedRemoteNotification(userInfo: userInfo)
+        completionHandler([.banner, .sound, .badge])
+   }
+    
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+{
+    let userInfo = response.notification.request.content.userInfo
+    Tab1ViewController.addPush(s: "Received in background: \(userInfo)")
     Analytics.main.receivedRemoteNotification(userInfo: userInfo)
 
     //add a custom method to handle the notification data 
     handleNotificiation(notification: userInfo, shouldAsk: true)
-
-    return .noData
-  }
-
-func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-    //Segment event for receiving a remote notification
-    Analytics.main.receivedRemoteNotification(userInfo: userInfo)
-
-    //add a custom method to handle the notification data 
-    handleNotificiation(notification: userInfo, shouldAsk: false)
+    
+    completionHandler()
 }
-
  ...
 
 //an extension for logic for displaying different notification types: 

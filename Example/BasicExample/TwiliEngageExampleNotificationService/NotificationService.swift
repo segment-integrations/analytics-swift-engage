@@ -8,6 +8,7 @@
 import UserNotifications
 import Segment
 import TwilioEngage
+import UserNotificationsUI
 
 // add service extension package here
 class NotificationService: UNNotificationServiceExtension {
@@ -17,7 +18,7 @@ class NotificationService: UNNotificationServiceExtension {
         if let bestAttemptContent = bestAttemptContent {
             var urlString: String? = nil
             let mediaArray: NSArray = bestAttemptContent.userInfo["media"] as! NSArray
-            
+                        
             if let mediaURLString = mediaArray[0] as? String {
                 urlString = mediaURLString
             }
@@ -39,7 +40,6 @@ class NotificationService: UNNotificationServiceExtension {
             contentHandler(bestAttemptContent)
         }
     }
-    
 }
 
 //add an extension to `UNNotificationAttachment` to download/save the image
