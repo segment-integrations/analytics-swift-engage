@@ -41,16 +41,6 @@ class NotificationService: UNNotificationServiceExtension {
         }
     }
     
-//    func didReceive(_ response: UNNotificationResponse, completionHandler completion: @escaping (UNNotificationContentExtensionResponseOption) -> Void) {
-//        print("****IDENTIFIER****", response.actionIdentifier)
-//      if response.actionIdentifier == "YOUR-REGISTER-IDENTIFIER" {
-//        // do something
-//      } else {
-//        // do something else
-//      }
-//    }
-    
-}
 
 //add an extension to `UNNotificationAttachment` to download/save the image
 @available(iOSApplicationExtension 10.0, *)
