@@ -13,7 +13,7 @@ import ProgressWebViewController
 import TwilioEngage
 
 extension Analytics {
-    static var main = Analytics(configuration: Configuration(writeKey: "<WRITE_KEY>")
+    static var main = Analytics(configuration: Configuration(writeKey: "<Write_Key>")
         .flushAt(1)
         .trackApplicationLifecycleEvents(true))
 }
@@ -36,7 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let center  = UNUserNotificationCenter.current()
         center.delegate = self
         
-        let categories = engage.createDefaultCategories()
+        let customAction = TwilioEngage.CustomAction(category: "customized_push", acceptActionTitle: "Accept Title", dismissActionTitle: "Dismiss Title")
+        
+        let categories = engage.createDefaultCategories(customCategories: customAction)
         
         UNUserNotificationCenter.current()
             .setNotificationCategories(categories)

@@ -49,16 +49,22 @@ import Segment
 import TwilioEngage // <-- Add this line
 ```
 
-4. Just under your Analytics-Swift library setup, call `analytics.add(plugin: ...)` to add an instance of the plugin to the Analytics timeline.
+4. Add an `engage` variable at the top of your `ApplicationDelegate`.
+
+```
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    let engage = TwilioEngage { previous, current in
+        Tab1ViewController.addPush(s: "Push Status Changed = \(current)")
+    }
+```
+
+5. Just under your Analytics-Swift library setup, call `analytics.add(plugin: ...)` to add an instance of the plugin to the Analytics timeline.
 
 ```
 let analytics = Analytics(configuration: Configuration(writeKey: "<YOUR WRITE KEY>")
                     .flushAt(3)
                     .trackApplicationLifecycleEvents(true))
-
-let engage = TwilioEngage { previous, current in
-    print("Push Status Changed /(current)")
-}
 
 analytics.add(plugin: engage)
 ```
@@ -78,6 +84,9 @@ On iOS, three different statuses are tracked: `Subscribed`, `DidNotSubscribe`, `
 * `Subscribed` is reported whenever app user toggles their device settings to allow push notification
 * `DidNotSubscribe` is reported in fresh start where no status has ever been reported
 * `Unsubscribed` is reported whenever user toggles their device settings to disable push notification and when the SDK fails to obtain a token from APNS
+
+## Default Implementation
+
 
 
 ## Additional Setup 
