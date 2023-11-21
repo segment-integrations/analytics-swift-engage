@@ -12,9 +12,8 @@
 		46EDC6FA27C6B8D200B870D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46EDC6F927C6B8D200B870D7 /* Assets.xcassets */; };
 		46EDC6FD27C6B8D200B870D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46EDC6FC27C6B8D200B870D7 /* Preview Assets.xcassets */; };
 		46EDC72127C6B92C00B870D7 /* Segment in Frameworks */ = {isa = PBXBuildFile; productRef = 46EDC72027C6B92C00B870D7 /* Segment */; };
-		8275F4FB2AB23778004C0908 /* TwilioEngage in Frameworks */ = {isa = PBXBuildFile; productRef = 8275F4FA2AB23778004C0908 /* TwilioEngage */; };
-		82D179FB2A8166A700318017 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D179FA2A8166A700318017 /* NotificationService.swift */; };
-		82D179FF2A8166A700318017 /* TwiliEngageExampleNotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 82D179F82A8166A700318017 /* TwiliEngageExampleNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		82A3C7672B0D32F60036DF9A /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A3C7662B0D32F60036DF9A /* NotificationService.swift */; };
+		82A3C76B2B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 82A3C7642B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		82F9C4732A8177A200E580E3 /* DeepLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9C4722A8177A200E580E3 /* DeepLinkViewController.swift */; };
 		9BC924392A5C9C840003637C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC924382A5C9C840003637C /* AppDelegate.swift */; };
 		9BC9243B2A5C9D130003637C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9243A2A5C9D130003637C /* SceneDelegate.swift */; };
@@ -25,12 +24,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		82D179FD2A8166A700318017 /* PBXContainerItemProxy */ = {
+		82A3C7692B0D32F60036DF9A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 46EDC6EA27C6B8D100B870D7 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 82D179F72A8166A700318017;
-			remoteInfo = TwiliEngageExampleNotificationService;
+			remoteGlobalIDString = 82A3C7632B0D32F60036DF9A;
+			remoteInfo = TwilioEngageExampleNotificationServiceExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -41,7 +40,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				82D179FF2A8166A700318017 /* TwiliEngageExampleNotificationService.appex in Embed Foundation Extensions */,
+				82A3C76B2B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,10 +54,16 @@
 		46EDC70627C6B8D200B870D7 /* BasicExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExampleTests.swift; sourceTree = "<group>"; };
 		46EDC71027C6B8D200B870D7 /* BasicExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExampleUITests.swift; sourceTree = "<group>"; };
 		46EDC71227C6B8D200B870D7 /* BasicExampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		82D179F82A8166A700318017 /* TwiliEngageExampleNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TwiliEngageExampleNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		82A3C7562B0D321B0036DF9A /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		82A3C7582B0D321B0036DF9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		82A3C75F2B0D32270036DF9A /* TwilioEngageExmpleNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TwilioEngageExmpleNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
+		82A3C7642B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TwilioEngageExampleNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		82A3C7662B0D32F60036DF9A /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		82A3C7682B0D32F60036DF9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D179FA2A8166A700318017 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		82D179FC2A8166A700318017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D209802A840559005118D1 /* TwiliEngageExampleNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TwiliEngageExampleNotificationService.entitlements; sourceTree = "<group>"; };
+		82D44CAE2B0D3CF80055CF7F /* TwilioEngageExampleNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TwilioEngageExampleNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		82F9C4722A8177A200E580E3 /* DeepLinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkViewController.swift; sourceTree = "<group>"; };
 		9BC924352A5C9AE20003637C /* BasicExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BasicExample.entitlements; sourceTree = "<group>"; };
 		9BC924362A5C9B4E0003637C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -82,11 +87,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82D179F52A8166A700318017 /* Frameworks */ = {
+		82A3C7612B0D32F60036DF9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8275F4FB2AB23778004C0908 /* TwilioEngage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +105,8 @@
 				46EDC70527C6B8D200B870D7 /* BasicExampleTests */,
 				46EDC70F27C6B8D200B870D7 /* BasicExampleUITests */,
 				82D179F92A8166A700318017 /* TwiliEngageExampleNotificationService */,
+				82A3C7552B0D321B0036DF9A /* TwilioEngageExmpleNotificationServiceExtension */,
+				82A3C7652B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension */,
 				46EDC6F327C6B8D100B870D7 /* Products */,
 				9BC9244A2A5CA6540003637C /* Frameworks */,
 			);
@@ -110,7 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				46EDC6F227C6B8D100B870D7 /* BasicExample.app */,
-				82D179F82A8166A700318017 /* TwiliEngageExampleNotificationService.appex */,
+				82A3C7642B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -159,6 +165,26 @@
 			path = BasicExampleUITests;
 			sourceTree = "<group>";
 		};
+		82A3C7552B0D321B0036DF9A /* TwilioEngageExmpleNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				82A3C75F2B0D32270036DF9A /* TwilioEngageExmpleNotificationServiceExtension.entitlements */,
+				82A3C7562B0D321B0036DF9A /* NotificationService.swift */,
+				82A3C7582B0D321B0036DF9A /* Info.plist */,
+			);
+			path = TwilioEngageExmpleNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
+		82A3C7652B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				82D44CAE2B0D3CF80055CF7F /* TwilioEngageExampleNotificationServiceExtension.entitlements */,
+				82A3C7662B0D32F60036DF9A /* NotificationService.swift */,
+				82A3C7682B0D32F60036DF9A /* Info.plist */,
+			);
+			path = TwilioEngageExampleNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
 		82D179F92A8166A700318017 /* TwiliEngageExampleNotificationService */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,7 +224,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				82D179FE2A8166A700318017 /* PBXTargetDependency */,
+				82A3C76A2B0D32F60036DF9A /* PBXTargetDependency */,
 			);
 			name = BasicExample;
 			packageProductDependencies = (
@@ -210,25 +236,21 @@
 			productReference = 46EDC6F227C6B8D100B870D7 /* BasicExample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		82D179F72A8166A700318017 /* TwiliEngageExampleNotificationService */ = {
+		82A3C7632B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 82D17A002A8166A700318017 /* Build configuration list for PBXNativeTarget "TwiliEngageExampleNotificationService" */;
+			buildConfigurationList = 82A3C76C2B0D32F60036DF9A /* Build configuration list for PBXNativeTarget "TwilioEngageExampleNotificationServiceExtension" */;
 			buildPhases = (
-				82D179F42A8166A700318017 /* Sources */,
-				82D179F52A8166A700318017 /* Frameworks */,
-				82D179F62A8166A700318017 /* Resources */,
+				82A3C7602B0D32F60036DF9A /* Sources */,
+				82A3C7612B0D32F60036DF9A /* Frameworks */,
+				82A3C7622B0D32F60036DF9A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				8275F4F72AB2246A004C0908 /* PBXTargetDependency */,
 			);
-			name = TwiliEngageExampleNotificationService;
-			packageProductDependencies = (
-				8275F4FA2AB23778004C0908 /* TwilioEngage */,
-			);
-			productName = TwiliEngageExampleNotificationService;
-			productReference = 82D179F82A8166A700318017 /* TwiliEngageExampleNotificationService.appex */;
+			name = TwilioEngageExampleNotificationServiceExtension;
+			productName = TwilioEngageExampleNotificationServiceExtension;
+			productReference = 82A3C7642B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -238,15 +260,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					46EDC6F127C6B8D100B870D7 = {
 						CreatedOnToolsVersion = 13.2.1;
 						LastSwiftMigration = 1430;
 					};
-					82D179F72A8166A700318017 = {
-						CreatedOnToolsVersion = 14.3.1;
+					82A3C7632B0D32F60036DF9A = {
+						CreatedOnToolsVersion = 15.0.1;
 					};
 				};
 			};
@@ -268,7 +290,7 @@
 			projectRoot = "";
 			targets = (
 				46EDC6F127C6B8D100B870D7 /* BasicExample */,
-				82D179F72A8166A700318017 /* TwiliEngageExampleNotificationService */,
+				82A3C7632B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -285,7 +307,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82D179F62A8166A700318017 /* Resources */ = {
+		82A3C7622B0D32F60036DF9A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -307,25 +329,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82D179F42A8166A700318017 /* Sources */ = {
+		82A3C7602B0D32F60036DF9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D179FB2A8166A700318017 /* NotificationService.swift in Sources */,
+				82A3C7672B0D32F60036DF9A /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8275F4F72AB2246A004C0908 /* PBXTargetDependency */ = {
+		82A3C76A2B0D32F60036DF9A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 8275F4F62AB2246A004C0908 /* Segment */;
-		};
-		82D179FE2A8166A700318017 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 82D179F72A8166A700318017 /* TwiliEngageExampleNotificationService */;
-			targetProxy = 82D179FD2A8166A700318017 /* PBXContainerItemProxy */;
+			target = 82A3C7632B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension */;
+			targetProxy = 82A3C7692B0D32F60036DF9A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -525,54 +543,63 @@
 			};
 			name = Release;
 		};
-		82D17A012A8166A700318017 /* Debug */ = {
+		82A3C76D2B0D32F60036DF9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_ENTITLEMENTS = TwiliEngageExampleNotificationService/TwiliEngageExampleNotificationService.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TwilioEngageExampleNotificationServiceExtension/TwilioEngageExampleNotificationServiceExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = VPZ4UMT2G9;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TwiliEngageExampleNotificationService/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TwiliEngageExampleNotificationService;
+				INFOPLIST_FILE = TwilioEngageExampleNotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TwilioEngageExampleNotificationServiceExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.segment.twilioEngage.TwilioEngageExampleNotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.segment.twilioEngage.TwilioEngageExampleNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		82D17A022A8166A700318017 /* Release */ = {
+		82A3C76E2B0D32F60036DF9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_ENTITLEMENTS = TwiliEngageExampleNotificationService/TwiliEngageExampleNotificationService.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TwilioEngageExampleNotificationServiceExtension/TwilioEngageExampleNotificationServiceExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = VPZ4UMT2G9;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TwiliEngageExampleNotificationService/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TwiliEngageExampleNotificationService;
+				INFOPLIST_FILE = TwilioEngageExampleNotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TwilioEngageExampleNotificationServiceExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.segment.twilioEngage.TwilioEngageExampleNotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.segment.twilioEngage.TwilioEngageExampleNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -602,11 +629,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82D17A002A8166A700318017 /* Build configuration list for PBXNativeTarget "TwiliEngageExampleNotificationService" */ = {
+		82A3C76C2B0D32F60036DF9A /* Build configuration list for PBXNativeTarget "TwilioEngageExampleNotificationServiceExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				82D17A012A8166A700318017 /* Debug */,
-				82D17A022A8166A700318017 /* Release */,
+				82A3C76D2B0D32F60036DF9A /* Debug */,
+				82A3C76E2B0D32F60036DF9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -646,15 +673,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 46EDC71F27C6B92C00B870D7 /* XCRemoteSwiftPackageReference "analytics-swift" */;
 			productName = Segment;
-		};
-		8275F4F62AB2246A004C0908 /* Segment */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 46EDC71F27C6B92C00B870D7 /* XCRemoteSwiftPackageReference "analytics-swift" */;
-			productName = Segment;
-		};
-		8275F4FA2AB23778004C0908 /* TwilioEngage */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TwilioEngage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -39,7 +39,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        UserDefaults(suiteName: "group.com.segment.twiliopush")?.set(1, forKey: "Count");  UIApplication.shared.applicationIconBadgeNumber = 0
+        UserDefaults(suiteName: "group.com.segment.twilioEngage")?.set(0, forKey: "Count");  UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
