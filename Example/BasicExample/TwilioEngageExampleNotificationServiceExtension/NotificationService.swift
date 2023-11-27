@@ -8,9 +8,9 @@
 import UserNotifications
 import TwilioEngage
 
-let engage = TwilioEngageServiceExtension()
-
 class NotificationService: UNNotificationServiceExtension {
+    let engage = TwilioEngageServiceExtension()
+    
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
     
