@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let customCategory = TwilioEngage.CustomCategory(title: "customized_push", acceptActionTitle: "Accept Title", dismissActionTitle: "Dismiss Title")
         
         let categories = engage.createDefaultCategories(customCategory: customCategory)
-        
+
         UNUserNotificationCenter.current()
             .setNotificationCategories(categories)
         
