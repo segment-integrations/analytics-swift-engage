@@ -247,7 +247,7 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive respo
 //an extension for logic for displaying different notification types: 
 extension AppDelegate {
 
-  //Handle the notification bacsed on the `tapAction`
+  //Handle the notification based on the `tapAction`
   func handleNotificiation(notification: [AnyHashable: Any], shouldAsk: Bool) {
     if let aps = notification["aps"] as? NSDictionary {
       if let tapAction = aps["category"] as? String {

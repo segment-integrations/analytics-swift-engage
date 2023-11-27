@@ -14,6 +14,7 @@
 		46EDC72127C6B92C00B870D7 /* Segment in Frameworks */ = {isa = PBXBuildFile; productRef = 46EDC72027C6B92C00B870D7 /* Segment */; };
 		82A3C7672B0D32F60036DF9A /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A3C7662B0D32F60036DF9A /* NotificationService.swift */; };
 		82A3C76B2B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 82A3C7642B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		82D44CB02B0D56CC0055CF7F /* TwilioEngage in Frameworks */ = {isa = PBXBuildFile; productRef = 82D44CAF2B0D56CC0055CF7F /* TwilioEngage */; };
 		82F9C4732A8177A200E580E3 /* DeepLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F9C4722A8177A200E580E3 /* DeepLinkViewController.swift */; };
 		9BC924392A5C9C840003637C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC924382A5C9C840003637C /* AppDelegate.swift */; };
 		9BC9243B2A5C9D130003637C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC9243A2A5C9D130003637C /* SceneDelegate.swift */; };
@@ -54,15 +55,9 @@
 		46EDC70627C6B8D200B870D7 /* BasicExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExampleTests.swift; sourceTree = "<group>"; };
 		46EDC71027C6B8D200B870D7 /* BasicExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExampleUITests.swift; sourceTree = "<group>"; };
 		46EDC71227C6B8D200B870D7 /* BasicExampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		82A3C7562B0D321B0036DF9A /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		82A3C7582B0D321B0036DF9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		82A3C75F2B0D32270036DF9A /* TwilioEngageExmpleNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TwilioEngageExmpleNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		82A3C7642B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TwilioEngageExampleNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A3C7662B0D32F60036DF9A /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		82A3C7682B0D32F60036DF9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		82D179FA2A8166A700318017 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		82D179FC2A8166A700318017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		82D209802A840559005118D1 /* TwiliEngageExampleNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TwiliEngageExampleNotificationService.entitlements; sourceTree = "<group>"; };
 		82D44CAE2B0D3CF80055CF7F /* TwilioEngageExampleNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TwilioEngageExampleNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		82F9C4722A8177A200E580E3 /* DeepLinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinkViewController.swift; sourceTree = "<group>"; };
 		9BC924352A5C9AE20003637C /* BasicExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BasicExample.entitlements; sourceTree = "<group>"; };
@@ -91,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D44CB02B0D56CC0055CF7F /* TwilioEngage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,8 +100,6 @@
 				46EDC6F427C6B8D100B870D7 /* BasicExample */,
 				46EDC70527C6B8D200B870D7 /* BasicExampleTests */,
 				46EDC70F27C6B8D200B870D7 /* BasicExampleUITests */,
-				82D179F92A8166A700318017 /* TwiliEngageExampleNotificationService */,
-				82A3C7552B0D321B0036DF9A /* TwilioEngageExmpleNotificationServiceExtension */,
 				82A3C7652B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension */,
 				46EDC6F327C6B8D100B870D7 /* Products */,
 				9BC9244A2A5CA6540003637C /* Frameworks */,
@@ -165,16 +159,6 @@
 			path = BasicExampleUITests;
 			sourceTree = "<group>";
 		};
-		82A3C7552B0D321B0036DF9A /* TwilioEngageExmpleNotificationServiceExtension */ = {
-			isa = PBXGroup;
-			children = (
-				82A3C75F2B0D32270036DF9A /* TwilioEngageExmpleNotificationServiceExtension.entitlements */,
-				82A3C7562B0D321B0036DF9A /* NotificationService.swift */,
-				82A3C7582B0D321B0036DF9A /* Info.plist */,
-			);
-			path = TwilioEngageExmpleNotificationServiceExtension;
-			sourceTree = "<group>";
-		};
 		82A3C7652B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -183,16 +167,6 @@
 				82A3C7682B0D32F60036DF9A /* Info.plist */,
 			);
 			path = TwilioEngageExampleNotificationServiceExtension;
-			sourceTree = "<group>";
-		};
-		82D179F92A8166A700318017 /* TwiliEngageExampleNotificationService */ = {
-			isa = PBXGroup;
-			children = (
-				82D209802A840559005118D1 /* TwiliEngageExampleNotificationService.entitlements */,
-				82D179FA2A8166A700318017 /* NotificationService.swift */,
-				82D179FC2A8166A700318017 /* Info.plist */,
-			);
-			path = TwiliEngageExampleNotificationService;
 			sourceTree = "<group>";
 		};
 		9BC924472A5CA3E30003637C /* Packages */ = {
@@ -249,6 +223,9 @@
 			dependencies = (
 			);
 			name = TwilioEngageExampleNotificationServiceExtension;
+			packageProductDependencies = (
+				82D44CAF2B0D56CC0055CF7F /* TwilioEngage */,
+			);
 			productName = TwilioEngageExampleNotificationServiceExtension;
 			productReference = 82A3C7642B0D32F60036DF9A /* TwilioEngageExampleNotificationServiceExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -673,6 +650,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 46EDC71F27C6B92C00B870D7 /* XCRemoteSwiftPackageReference "analytics-swift" */;
 			productName = Segment;
+		};
+		82D44CAF2B0D56CC0055CF7F /* TwilioEngage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TwilioEngage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
