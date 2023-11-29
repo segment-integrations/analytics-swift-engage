@@ -36,13 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let center  = UNUserNotificationCenter.current()
         center.delegate = self
         
-        let customCategory = TwilioEngage.CustomCategory(title: "customized_push", acceptActionTitle: "Accept Title", dismissActionTitle: "Dismiss Title")
-        
-        let categories = engage.createDefaultCategories(customCategory: customCategory)
-
-        UNUserNotificationCenter.current()
-            .setNotificationCategories(categories)
-        
         center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
             guard granted else {
                 Analytics.main.declinedRemoteNotifications()
