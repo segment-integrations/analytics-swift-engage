@@ -7,15 +7,17 @@
 import Foundation
 import Segment
 import UserNotifications
+import UIKit
 
 public class TwilioEngageServiceExtension: UtilityPlugin {
     public var type = PluginType.utility
     public weak var analytics: Analytics? = nil
-    let userDefaults = UserDefaults(suiteName: "group.com.segment.twilioEngage")
-
+    public var tapActionLink: String? = nil
+    internal let userDefaults = UserDefaults(suiteName: "group.com.segment.twilioEngage")
+ 
     public init() {
     }
-
+    
     public func configure(analytics: Analytics) {
         self.analytics = analytics
     }
@@ -27,6 +29,8 @@ public class TwilioEngageServiceExtension: UtilityPlugin {
         let badgeStrategy = content.userInfo["badgeStrategy"] as? String
         var currentBadge = 2
         
+        let userInfo = content.userInfo
+        let identity = content.categoryIdentifier
         switch badgeStrategy {
         case "inc":
             currentBadge += badgeAmount
@@ -62,6 +66,33 @@ public class TwilioEngageServiceExtension: UtilityPlugin {
                 }
                 
                 content.attachments = [ mediaAttachment ]
+            }
+        }
+        createActionButtons(identity: identity, userInfo: userInfo)
+    }
+
+    
+    func createActionButtons(identity: String, userInfo: [AnyHashable: Any]) {
+        if let actionButtons = userInfo["tapActionButtons"] as? [NSDictionary] {
+            var buttons: [UNNotificationAction] = []
+            
+            for actionButton in actionButtons {
+                if let actionIdentifier = actionButton["onTap"] as? String,
+                   let actionName = actionButton["text"] as? String {
+                    let actionBtn = UNNotificationAction(identifier: actionIdentifier, title: actionName, options: [UNNotificationActionOptions.foreground])
+                    
+                    buttons.append(actionBtn)
+                    
+                    let category = UNNotificationCategory(identifier: identity, actions: buttons, intentIdentifiers: [], options: [])
+                    let categories: Set = [category]
+                    UNUserNotificationCenter.current().setNotificationCategories(categories)
+                    
+                    if actionIdentifier == "open_url" {
+                        if let link = actionButton["link"] as? String {
+                            userDefaults?.set(link, forKey: "ActionLink");
+                        }
+                    }
+                }
             }
         }
     }
