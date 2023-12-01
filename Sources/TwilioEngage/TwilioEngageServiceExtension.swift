@@ -97,6 +97,12 @@ public class TwilioEngageServiceExtension: UtilityPlugin {
                             userDefaults?.set(link, forKey: "ActionLink");
                         }
                     }
+                    
+                    if actionIdentifier == "deep_link" {
+                        if let link = actionButton["link"] as? String {
+                            userDefaults?.set(link, forKey: "ActionLink");
+                        }
+                    }
                 }
             }
         }
