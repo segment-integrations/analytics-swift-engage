@@ -192,7 +192,7 @@ extension TwilioEngage: RemoteNotifications {
             case "open_app":
                 return
             case "deep_link":
-                Notification.Name.openButton.post(userInfo: userInfo)
+                handleDeepLinks(userInfo: userInfo)
             case "open_url":
                 if let urlString = userInfo["link"] as? String {
                     guard let url = URL(string: urlString) else {return}
@@ -204,7 +204,7 @@ extension TwilioEngage: RemoteNotifications {
         case "open_app":
             return
         case "deep_link":
-            Notification.Name.openButton.post(userInfo: userInfo)
+           handleDeepLinks(userInfo: userInfo)
         case "open_url":
             if let actionLink = userDefaults?.string(forKey: "ActionLink") as? String {
                 guard let url = URL(string: actionLink) else {return}
@@ -212,6 +212,19 @@ extension TwilioEngage: RemoteNotifications {
             }
         default:
             Notification.Name.openButton.post(userInfo: userInfo)
+        }
+    }
+    
+    func handleDeepLinks(userInfo: [AnyHashable: Any]) {
+        if let actionLink = userDefaults?.string(forKey: "ActionLink") as? String {
+            var deepLinkData: [AnyHashable: Any] = [
+                "deep_link": actionLink,
+            ]
+            
+            //merge existing userInfo into deepLinkData dictionary
+            deepLinkData.merge(userInfo) { (current, _) in current }
+            
+            Notification.Name.openButton.post(userInfo: deepLinkData)
         }
     }
 }

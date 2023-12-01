@@ -25,7 +25,7 @@ class Tab1ViewController: UITableViewController {
         
         Notification.Name.openButton.onPost { notification in
             let name = notification.name
-            guard let deeplink = notification.userInfo?["link"] as? String else {return}
+            guard let deeplink = notification.userInfo?["deep_link"] as? String else {return}
             print("Deep Link in viewDidLoad() \(deeplink)")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
