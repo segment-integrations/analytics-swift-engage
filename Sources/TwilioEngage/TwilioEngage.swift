@@ -224,7 +224,7 @@ extension TwilioEngage: RemoteNotifications {
             //merge existing userInfo into deepLinkData dictionary
             deepLinkData.merge(userInfo) { (current, _) in current }
             
-            Notification.Name.openButton.post(actionLink: actionLink, userInfo: deepLinkData)
+            Notification.Name.openButton.post(userInfo: deepLinkData)
         }
     }
 }
