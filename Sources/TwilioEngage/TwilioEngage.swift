@@ -187,15 +187,25 @@ extension TwilioEngage: RemoteNotifications {
         let actionIdentifier = response.actionIdentifier
 
         switch actionIdentifier {
+        case "com.apple.UNNotificationDefaultActionIdentifier": // Standard tap action
+            switch identity {
+            case "open_app":
+                return
+            case "deep_link":
+                Notification.Name.openButton.post(userInfo: userInfo)
+            case "open_url":
+                if let urlString = userInfo["link"] as? String {
+                    guard let url = URL(string: urlString) else {return}
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            default:
+                Notification.Name.openButton.post(userInfo: userInfo)
+            }
         case "open_app":
             return
         case "deep_link":
             Notification.Name.openButton.post(userInfo: userInfo)
         case "open_url":
-            if let urlString = userInfo["link"] as? String {
-                guard let url = URL(string: urlString) else {return}
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
             if let actionLink = userDefaults?.string(forKey: "ActionLink") as? String {
                 guard let url = URL(string: actionLink) else {return}
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)

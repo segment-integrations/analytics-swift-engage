@@ -27,7 +27,7 @@ public class TwilioEngageServiceExtension: UtilityPlugin {
         // set badge
         let badgeAmount = content.userInfo["badgeAmount"] as? Int ?? 1
         let badgeStrategy = content.userInfo["badgeStrategy"] as? String
-        var currentBadge = 2
+        var currentBadge = userDefaults?.value(forKey: "Count") as? Int ?? 0
         
         let userInfo = content.userInfo
         let identity = content.categoryIdentifier
@@ -42,6 +42,7 @@ public class TwilioEngageServiceExtension: UtilityPlugin {
             currentBadge = badgeAmount
         }
         
+        currentBadge = max(currentBadge, 0)
         userDefaults?.set(currentBadge, forKey: "Count")
         content.badge = NSNumber(value: currentBadge)
         
@@ -77,8 +78,12 @@ public class TwilioEngageServiceExtension: UtilityPlugin {
             var buttons: [UNNotificationAction] = []
             
             for actionButton in actionButtons {
-                if let actionIdentifier = actionButton["onTap"] as? String,
+                if var actionIdentifier = actionButton["onTap"] as? String,
                    let actionName = actionButton["text"] as? String {
+                    let action = actionButton["link"] as? String ?? ""
+                    if actionIdentifier == "open_app" && action != "" {
+                        actionIdentifier = "deep_link"
+                    }
                     let actionBtn = UNNotificationAction(identifier: actionIdentifier, title: actionName, options: [UNNotificationActionOptions.foreground])
                     
                     buttons.append(actionBtn)

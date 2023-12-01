@@ -13,7 +13,7 @@ import ProgressWebViewController
 import TwilioEngage
 
 extension Analytics {
-    static var main = Analytics(configuration: Configuration(writeKey: "<Write_Key>")
+    static var main = Analytics(configuration: Configuration(writeKey: "hhInltnMJvrod9b4ajufhz4k39E5KJXZ")
         .flushAt(1)
         .trackApplicationLifecycleEvents(true))
 }
@@ -80,6 +80,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Analytics.main.receivedRemoteNotification(userInfo: userInfo)
         
         completionHandler([.banner, .sound, .badge])
+        
+        UserDefaults(suiteName: "group.com.segment.twilioEngage")?.set(0, forKey: "Count")
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
@@ -93,8 +96,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-      
-        UserDefaults(suiteName: "group.com.segment.twilioEngage")?.set(0, forKey: "Count");  UIApplication.shared.applicationIconBadgeNumber = 0
+        UserDefaults(suiteName: "group.com.segment.twilioEngage")?.set(0, forKey: "Count")
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     // MARK: UISceneSession Lifecycle
