@@ -84,7 +84,9 @@ public class TwilioEngageServiceExtension: UtilityPlugin {
                     if actionIdentifier == "open_app" && action != "" {
                         actionIdentifier = "deep_link"
                     }
-                    let actionBtn = UNNotificationAction(identifier: actionIdentifier, title: actionName, options: [UNNotificationActionOptions.foreground])
+                    let id = actionButton["id"] as? String ?? ""
+                    let identifier = "\(actionIdentifier)-\(id)"
+                    let actionBtn = UNNotificationAction(identifier: identifier, title: actionName, options: [UNNotificationActionOptions.foreground])
                     
                     buttons.append(actionBtn)
                     
@@ -94,13 +96,19 @@ public class TwilioEngageServiceExtension: UtilityPlugin {
                     
                     if actionIdentifier == "open_url" {
                         if let link = actionButton["link"] as? String {
-                            userDefaults?.set(link, forKey: "ActionLink");
+                            userDefaults?.set(link, forKey: "ActionLink-\(id)");
                         }
                     }
                     
                     if actionIdentifier == "deep_link" {
                         if let link = actionButton["link"] as? String {
-                            userDefaults?.set(link, forKey: "ActionLink");
+                            userDefaults?.set(link, forKey: "ActionDeepLink-\(id)");
+                        }
+                    }
+                    
+                    if actionIdentifier == "custom_action" {
+                        if let link = actionButton["link"] as? String {
+                            userDefaults?.set(link, forKey: "CustomAction-\(id)");
                         }
                     }
                 }
