@@ -24,14 +24,26 @@ class Tab1ViewController: UITableViewController {
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "pushCell")
         
         Notification.Name.openButton.onPost { notification in
-            let name = notification.name
-            guard let deeplink = notification.userInfo?["deep_link"] as? String else {return}
-            print("Deep Link in viewDidLoad() \(deeplink)")
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let deeplink = notification.userInfo?["deep_link"] as? String {
+                print("Deep Link in viewDidLoad() \(deeplink)")
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
-            let deepLinkScreen = deeplink.replacingOccurrences(of: "engage://", with: "")
-            let deepLinkVC = storyboard.instantiateViewController(identifier: deepLinkScreen)
-            mainView?.navigationController?.pushViewController(deepLinkVC, animated: true)
+                let deepLinkScreen = deeplink.replacingOccurrences(of: "engage://", with: "")
+                let deepLinkVC = storyboard.instantiateViewController(identifier: deepLinkScreen)
+                mainView?.navigationController?.pushViewController(deepLinkVC, animated: true)
+            } else if let custom_action = notification.userInfo?["custom_action"] as? String {
+                if custom_action == "open_settings" {
+                    print("Open Settings")
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let settingsVC = storyboard.instantiateViewController(withIdentifier: "settings.vc")
+                    mainView?.navigationController?.pushViewController(settingsVC, animated: true)
+                } else if (custom_action == "DeepLinkScreen") {
+                    print("Deep Link Screen")
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let deepLinkVC = storyboard.instantiateViewController(identifier: custom_action)
+                    mainView?.navigationController?.pushViewController(deepLinkVC, animated: true)
+                }
+            }
         }
     }
         
