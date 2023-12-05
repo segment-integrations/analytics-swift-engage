@@ -212,7 +212,40 @@ extension TwilioEngage: RemoteNotifications {
         case "open_url":
             handleOpenUrls(userInfo: userInfo)
         default:
-            handleCustomAction(userInfo: userInfo)
+            handleCustomAction(userInfo: userInfo, identity: identity)
+        }
+    }
+    
+    func handleDeepLinks(userInfo: [AnyHashable: Any]) {
+        if let actionLink = userInfo["link"] as? String {
+            var deepLinkData: [AnyHashable: Any] = [
+                "deep_link": actionLink,
+            ]
+            
+            //merge existing userInfo into deepLinkData dictionary
+            deepLinkData.merge(userInfo) { (current, _) in current }
+            
+            Notification.Name.openButton.post(userInfo: deepLinkData)
+        }
+    }
+    
+    func handleOpenUrls(userInfo: [AnyHashable: Any]) {
+        if let urlString = userInfo["link"] as? String {
+            guard let url = URL(string: urlString) else {return}
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    func handleCustomAction(userInfo: [AnyHashable: Any], identity: String) {
+        if identity != "" {
+            var customActionData: [AnyHashable: Any] = [
+                "custom_action": identity,
+            ]
+            
+            //merge existing userInfo into customActionData dictionary
+            customActionData.merge(userInfo) { (current, _) in current }
+            
+            Notification.Name.openButton.post(userInfo: customActionData)
         }
     }
     
@@ -240,48 +273,15 @@ extension TwilioEngage: RemoteNotifications {
     
     func handleCustomActionButtons(userInfo: [AnyHashable: Any], id: String) {
         if let customAction = userDefaults?.string(forKey: "CustomAction-\(id)") as? String {
-            var deepLinkData: [AnyHashable: Any] = [
+            var customActionData: [AnyHashable: Any] = [
                 "custom_action": customAction,
             ]
             
-            //merge existing userInfo into deepLinkData dictionary
-            deepLinkData.merge(userInfo) { (current, _) in current }
+            //merge existing userInfo into customActionData dictionary
+            customActionData.merge(userInfo) { (current, _) in current }
             
-            Notification.Name.openButton.post(userInfo: deepLinkData)
+            Notification.Name.openButton.post(userInfo: customActionData)
             userDefaults?.removeObject(forKey: "CustomAction-\(id)")
-        }
-    }
-    
-    func handleDeepLinks(userInfo: [AnyHashable: Any]) {
-        if let actionLink = userInfo["link"] as? String {
-            var deepLinkData: [AnyHashable: Any] = [
-                "deep_link": actionLink,
-            ]
-            
-            //merge existing userInfo into deepLinkData dictionary
-            deepLinkData.merge(userInfo) { (current, _) in current }
-            
-            Notification.Name.openButton.post(userInfo: deepLinkData)
-        }
-    }
-    
-    func handleOpenUrls(userInfo: [AnyHashable: Any]) {
-        if let urlString = userInfo["link"] as? String {
-            guard let url = URL(string: urlString) else {return}
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-    
-    func handleCustomAction(userInfo: [AnyHashable: Any]) {
-        if let customAction = userInfo["link"] as? String {
-            var deepLinkData: [AnyHashable: Any] = [
-                "custom_action": customAction,
-            ]
-            
-            //merge existing userInfo into deepLinkData dictionary
-            deepLinkData.merge(userInfo) { (current, _) in current }
-            
-            Notification.Name.openButton.post(userInfo: deepLinkData)
         }
     }
 }
