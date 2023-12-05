@@ -94,22 +94,18 @@ public class TwilioEngageServiceExtension: UtilityPlugin {
                     let categories: Set = [category]
                     UNUserNotificationCenter.current().setNotificationCategories(categories)
                     
-                    if actionIdentifier == "open_url" {
+                    if (actionIdentifier == "open_app") {
+                        continue
+                    } else if actionIdentifier == "open_url" {
                         if let link = actionButton["link"] as? String {
-                            userDefaults?.set(link, forKey: "ActionLink-\(id)");
+                            userDefaults?.set(link, forKey: "ActionLink-\(id)")
                         }
-                    }
-                    
-                    if actionIdentifier == "deep_link" {
+                    } else if actionIdentifier == "deep_link" {
                         if let link = actionButton["link"] as? String {
-                            userDefaults?.set(link, forKey: "ActionDeepLink-\(id)");
+                            userDefaults?.set(link, forKey: "ActionDeepLink-\(id)")
                         }
-                    }
-                    
-                    if actionIdentifier == "custom_action" {
-                        if let link = actionButton["link"] as? String {
-                            userDefaults?.set(link, forKey: "CustomAction-\(id)");
-                        }
+                    } else {
+                        userDefaults?.set(actionIdentifier, forKey: "CustomAction-\(id)")
                     }
                 }
             }
